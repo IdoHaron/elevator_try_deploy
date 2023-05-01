@@ -20,3 +20,6 @@ class TemplatesDB(MapDB, ABC):
     @abstractmethod
     def get_all_templates(self)->List[str]:
         raise NotImplementedError
+
+    def template_in_db(self, template:str)->bool:
+        return not (template is None or template not in self.get_all_templates())

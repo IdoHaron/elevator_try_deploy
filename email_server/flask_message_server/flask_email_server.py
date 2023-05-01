@@ -113,7 +113,8 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @FlaskServer._SERVER.route("/template/<template>")
     @login_required
     def template_fetch(template:str):
-        print(template)
+        if not FlaskMessageServer.server_instace._template_db.template_in_db(template):
+            return ""
         return FlaskMessageServer.server_instace._template_db.get_encoding(template)
 
     @staticmethod
