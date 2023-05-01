@@ -38,7 +38,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         self._screen_db = screen_db
         self._template_db = template_db
         FlaskMessageServer.server_instace = self
-        FlaskServer._SERVER.run(host=host, port=port, debug=True)# ,ssl_context='adhoc')
+        FlaskServer._SERVER.run(host=host, port=port)# ,ssl_context='adhoc')
         #reload(FlaskMessageServer)
         #self.login_manager.init_app(self._SERVER)
 
