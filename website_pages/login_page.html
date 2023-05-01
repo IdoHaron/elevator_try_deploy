@@ -1,8 +1,14 @@
-<head></head>
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
+
+</head>
 <body>
     <form action="/login" method="POST" >
-        <input type="text" placeholder="username" name="username" required>
-        <input type="password" placeholder="password" name="password" required>
-        <button type="submit" value="Submit">login</button>
+        <div class="form_text">username:</div>
+        <input type="text" placeholder="username" class="input_login" name="username" required>
+        <br>
+        <div class="form_text">password:</div>
+        <input type="password" placeholder="password" class="input_login" name="password" required>
+        <button type="submit" value="Submit" class="login_button">login</button>
     </form>
 </body>

@@ -23,10 +23,13 @@ form {
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    width: fit-content;
+    width: 50%;
     word-break: break-word;
     border: 0;
   }
+.input_login{
+  width: 100%;
+}
   
 .form_text{
   font-family: "Lucida Console";
@@ -35,4 +38,14 @@ form {
 
 .prevent_line_break{
   display:inline;
+}
+
+.login_button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
 }
