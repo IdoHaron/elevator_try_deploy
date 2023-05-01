@@ -3,7 +3,7 @@ function hide_element(element){
 }
 
 function show_element(element){
-    element.style.display = "block";
+    element.style.display = "";
 }
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));

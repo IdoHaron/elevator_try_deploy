@@ -4,34 +4,37 @@
     <!--<img hiddn src="{{url_for('static', filename='birthday_format.png')}}" name="name_format">-->
 
     <!--action="/new_image"-->
+    <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
     </head>
     <body onload="onload_body()">
         <form method="POST" id="message_construct"  action="/new_image">
             <! --- <input type="dropdown" placeholder="clean" name="template" required>
             <! --- <input type="dropdown" placeholder="choose board" name="board_name" required>
             <br>
-            choose base image origin: 
-            <select id="template_or_user_image" onchange="ImgSrcManagement.update_input_option(this)">
+
+            <div class="form_text">choose base image origin: </div> <select id="template_or_user_image" onchange="ImgSrcManagement.update_input_option(this)" class = "centerized">
                 <option value="templates" selected="selected">templates</option>
                 <option value="user_image">upload image</option>
             </select>
-            <select id="templates" onchange="on_change_template(this)">
+            <br>
+            <div class="form_text">background image: </div>
+            <select id="templates" onchange="on_change_template(this)" class = "centerized">
                 {% for template in templates: %}
                     <option id="{{template}}" name="template_options">{{template}}</option>
                 {% endfor %}
             </select>
-            <input type="file" id="user_image" name="user_image" accept=".jpg, .jpeg, .png" onchange="UserFileUpload.on_file_upload(this)">
-            <input type="text" id="text_on_image">
+            <input type="file" id="user_image" name="user_image" accept=".jpg, .jpeg, .png" onchange="UserFileUpload.on_file_upload(this)" class = "centerized">
             <br>
-            choose board:
-            <select id="board">
+            <div class="form_text">text to add:</div> <input type="text" id="text_on_image">
+            <br>
+            <div class="form_text">choose board:</div> <select id="board">
                 {% for board in boards: %}
                     <option value={{board}}>{{board}}</option>
                 {% endfor %}
             </select>
             <br>
-            <button value="send_image" onclick="sumbit_editied_image(event)">send message request</button>
-            <button onclick="add_text_to_canvas(event)">add text</button>
+            <button onclick="add_text_to_canvas(event)" class="form_button">add text</button>
+            <button value="send_image" onclick="sumbit_editied_image(event)" class="form_button">send message request</button>
         </form>
         <canvas id="edit_image_canvas" width="500" height="300"></canvas>
         <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>

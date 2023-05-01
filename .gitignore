@@ -1,0 +1,6 @@
+.idea
+.dist
+*.pyc
+*.
+login_details.py
+cred.py
