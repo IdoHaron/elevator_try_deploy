@@ -5,7 +5,13 @@ form {
 .centerized{
   text-align: center;
 }
-
+.canvas-container{
+  margin: 0 auto;
+}
+.login_form{
+  top: 50%;
+  left: 50%;
+}
 .form_button {
     background: #5E5DF0;
     border-radius: 999px;
