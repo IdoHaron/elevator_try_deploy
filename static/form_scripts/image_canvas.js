@@ -23,7 +23,11 @@ class ImageCanvasManagement{
         */
     }
     convert_to_hex(){
-        return document.getElementById(this.canvas_id).toDataURL();
+        return this.pointer_to_canvas.toDataURL({
+            format: 'png',
+            quality: 0.8
+        });
+        // return document.getElementById(this.canvas_id).toDataURL();
     }
 
     upload_image_to_canvas(image_encoding){
@@ -36,8 +40,12 @@ class ImageCanvasManagement{
             var f_img = new fabric.Image(img);
             // f_img.scaleToHeight(50);//canvas.height)
             //f_img.scaleToWidth(canvas.width)
-            f_img.height = canvas.height;
-            f_img.width = canvas.width;
+            if (canvas.height < canvas.width){
+                f_img.height = canvas.height;
+            }
+            else{
+                f_img.width = canvas.width;
+            }
 
             canvas.setBackgroundImage(f_img);
 
