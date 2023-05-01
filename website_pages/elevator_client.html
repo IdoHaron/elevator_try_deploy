@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .imgbox {
+                display: grid;
+                height: 100%;
+            }
+            .center-fit {
+                max-width: 100%;
+                max-height: 100vh;
+                margin: auto;
+            }
+        </style>
+        <data hidden id="data_id">{{screen_id}}</data>
+    </head>
+    <body>
+        <img class="center-fit imgbox" id="shown_image" src="{{current_img}}">
+        <script src="{{url_for('static', filename='NetworkUtils.js')}}"></script>
+        <script src="{{url_for('static', filename='TimedEvents.js')}}"></script>
+        <script src="{{url_for('static', filename='elevator_client.js')}}"></script>
+        
+    </body>
+</html>
