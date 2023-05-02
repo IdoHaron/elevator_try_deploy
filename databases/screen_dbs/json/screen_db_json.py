@@ -1,3 +1,5 @@
+import json
+
 from databases.screen_dbs.screen_db import ScreenDB
 from pathlib import Path
 from utils.decorators import singleton
@@ -18,6 +20,11 @@ class ScreenJsonDB(ScreenDB,JsonDB):
         # need to verify screen exists.
         self._modified_screen(screen_id)
         self._current_db_state[screen_id] = image
+        self._save_db()
 
     def __dict__(self):
         return self._current_db_state.copy()
+
+    def _save_db(self):
+        with self.database_path.open("w") as f:
+            json.dump(self.__dict__(), f)

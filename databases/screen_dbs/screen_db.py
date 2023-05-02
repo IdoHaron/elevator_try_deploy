@@ -38,3 +38,7 @@ class ScreenDB:
 
     def legal_screen_id(self, screen_id) -> bool:
         return screen_id in self.__dict__().keys()
+
+    @abstractmethod
+    def _save_db(self):
+        raise NotImplementedError
