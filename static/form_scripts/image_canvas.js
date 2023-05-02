@@ -1,8 +1,11 @@
 let try_text = null
+pointer_to_canvas_outside_ref = null
+pointer_to_image_outside_ref = null
 class ImageCanvasManagement{
     static canvas_id = "edit_image_canvas"
     constructor(){
         this.pointer_to_canvas = new fabric.Canvas("edit_image_canvas");
+        pointer_to_canvas_outside_ref = this.pointer_to_canvas;
     }
 
     clear_canvas(){
@@ -33,25 +36,17 @@ class ImageCanvasManagement{
     upload_image_to_canvas(image_encoding){
         var img = new Image();
         const canvas = this.pointer_to_canvas
-        canvas.uniformScaling = false;
-
+        // canvas.uniformScaling = false;
+        img.src = image_encoding;
         // When the image loads, set it as background image
         img.onload = function() {
             var f_img = new fabric.Image(img);
-            // f_img.scaleToHeight(50);//canvas.height)
-            //f_img.scaleToWidth(canvas.width)
-            if (canvas.height < canvas.width){
-                f_img.height = canvas.height;
-            }
-            else{
-                f_img.width = canvas.width;
-            }
-
+            f_img.scaleToWidth(canvas.width);
             canvas.setBackgroundImage(f_img);
 
             canvas.renderAll();
         };
-        img.src = image_encoding
+        pointer_to_image_outside_ref = img;
 
         /*this.clear_canvas();
         this.pointer_to_canvas.setBackgroundImage(image_encoding, this.pointer_to_canvas.renderAll.bind(this.pointer_to_canvas), {

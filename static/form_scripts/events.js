@@ -40,3 +40,16 @@ function add_text_to_canvas(event){
     });
 }
 generate_canvas();
+
+function add_image_to_canvas(image_encoding, fabric_canvas, wanted_width, wanted_height){
+    var img = new Image();
+    img.src = image_encoding;
+    img.sizes = (wanted_height,wanted_height)
+    img.onload = function() {
+        var f_img = new fabric.Image(img);
+        f_img.scaleToWidth(canvas.width);
+        fabric_canvas.setBackgroundImage(f_img);
+
+        fabric_canvas.renderAll();
+    };
+}
