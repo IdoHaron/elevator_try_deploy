@@ -1,11 +1,11 @@
 let try_text = null
-pointer_to_canvas_outside_ref = null
+pointer_to_canvas_outside_ref = null;
+pointer_to_canvas_outside_ref = new fabric.Canvas("edit_image_canvas");
 pointer_to_image_outside_ref = null
 class ImageCanvasManagement{
     static canvas_id = "edit_image_canvas"
     constructor(){
-        this.pointer_to_canvas = new fabric.Canvas("edit_image_canvas");
-        pointer_to_canvas_outside_ref = this.pointer_to_canvas;
+        this.pointer_to_canvas = pointer_to_canvas_outside_ref;
     }
 
     clear_canvas(){
@@ -69,7 +69,7 @@ class ImageCanvasManagement{
         }*/
     }
     add_text_to_canvas(wanted_text, options){
-        const text = new fabric.IText(wanted_text, options);
+        const text = new fabric.Textbox(wanted_text, options);
         try_text = text;
         this.pointer_to_canvas.add(text)
     }

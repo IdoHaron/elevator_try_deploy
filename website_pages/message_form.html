@@ -33,7 +33,7 @@
                 {% endfor %}
             </select>
             <br>
-            <button onclick="add_text_to_canvas(event)" class="form_button">add text</button>
+            <button onclick="add_text_to_canvas(event, {moveCursor: 'pointer'})" class="form_button">add text</button>
             <button value="send_image" onclick="sumbit_editied_image(event)" class="form_button">send message request</button>
         </form>
         <canvas id="edit_image_canvas" width="1000" height="1000" class="centerized_canvas"></canvas>
