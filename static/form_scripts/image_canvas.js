@@ -41,11 +41,17 @@ class ImageCanvasManagement{
         // When the image loads, set it as background image
         img.onload = function() {
             var f_img = new fabric.Image(img);
-            f_img.scaleToWidth(canvas.width);
-            canvas.setBackgroundImage(f_img);
 
+            let scale_width = canvas.width / f_img.width;
+            let scale_height = canvas.height / f_img.height;
+            f_img.set({
+                scaleX: scale_width,
+                scaleY: scale_height
+            });
+            canvas.setBackgroundImage(f_img);
             canvas.renderAll();
         };
+
         pointer_to_image_outside_ref = img;
 
         /*this.clear_canvas();

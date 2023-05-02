@@ -44,12 +44,21 @@ generate_canvas();
 function add_image_to_canvas(image_encoding, fabric_canvas, wanted_width, wanted_height){
     var img = new Image();
     img.src = image_encoding;
-    img.sizes = (wanted_height,wanted_height)
+    //img.sizes = (wanted_width,wanted_height)
+    img.width = wanted_width;
+    img.height = wanted_height;
+    img.sizes = (wanted_width,wanted_height);
     img.onload = function() {
         var f_img = new fabric.Image(img);
-        f_img.scaleToWidth(canvas.width);
+        //f_img.scaleToWidth(wanted_width);
+        let scale_width = wanted_width / f_img.width;
+        let scale_height = wanted_height / f_img.height;
+        f_img.set({
+            scaleX: scale_width,
+            scaleY: scale_height
+        });
+        
         fabric_canvas.setBackgroundImage(f_img);
-
         fabric_canvas.renderAll();
     };
 }
