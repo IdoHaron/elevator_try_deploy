@@ -39,6 +39,17 @@ function add_text_to_canvas(event){
         moveCursor: 'pointer'
     });
 }
+const canvas_height = window.innerHeight / 2;
+const canvas_width = window.innerWidth / 2;
+const canvas_element= document.getElementById("edit_image_canvas");
+canvas_element.height = canvas_height;
+canvas_element.width = canvas_width;
+pointer_to_canvas_outside_ref = new fabric.Canvas("edit_image_canvas", {
+    height: canvas_height,
+    width: canvas_width
+});
+canvas.renderAll();
+
 generate_canvas();
 
 function add_image_to_canvas(image_encoding, fabric_canvas, wanted_width, wanted_height){

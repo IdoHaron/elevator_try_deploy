@@ -1,6 +1,5 @@
 let try_text = null
 pointer_to_canvas_outside_ref = null;
-pointer_to_canvas_outside_ref = new fabric.Canvas("edit_image_canvas");
 pointer_to_image_outside_ref = null
 class ImageCanvasManagement{
     static canvas_id = "edit_image_canvas"

@@ -6,12 +6,14 @@ form {
   text-align: center;
 }
 .canvas-container{
-  margin: 0 auto;
   border: 1px solid blue;
+  left: 25%;
+  display: block;
 }
 .login_form{
   top: 50%;
   left: 50%;
+  margin: 20vh;
 }
 .form_button {
     background: #5E5DF0;
@@ -27,20 +29,28 @@ form {
     opacity: 1;
     outline: 0 solid transparent;
     padding: 8px 18px;
+    font-size : 2vw;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    height: 10vh;
     width: 50%;
     word-break: break-word;
     border: 0;
   }
 .input_login{
   width: 100%;
+  font-size : 2.5vw;
 }
   
 .form_text{
   font-family: "Lucida Console";
   display:inline;
+  font-size : 2.5vw;
+}
+
+.mudicular_size{
+  font-size : 2.5vw;
 }
 
 .prevent_line_break{
@@ -54,5 +64,23 @@ form {
   margin: 8px 0;
   border: none;
   cursor: pointer;
+  font-size : 2.5vw;
+  height: 10vh;
   width: 100%;
+  
+}
+input{
+  font-size : 2.5vw;
+}
+
+select{
+  font-size : 2.5vw;
+}
+
+button{
+  font-size : 2.5vw;
+}
+
+.br_size{
+  margin: 10vh;
 }

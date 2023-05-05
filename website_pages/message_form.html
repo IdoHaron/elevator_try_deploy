@@ -6,7 +6,7 @@
     <!--action="/new_image"-->
     <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
     </head>
-    <body onload="onload_body()">
+    <body onload="onload_body()" style="height:100vh">
         <form method="POST" id="message_construct"  action="/new_image">
             <! --- <input type="dropdown" placeholder="clean" name="template" required>
             <! --- <input type="dropdown" placeholder="choose board" name="board_name" required>
@@ -33,10 +33,11 @@
                 {% endfor %}
             </select>
             <br>
-            <button onclick="add_text_to_canvas(event, {moveCursor: 'pointer'})" class="form_button">add text</button>
+            <button onclick="add_text_to_canvas(event, {moveCursor: 'pointer', fontSize: 80})" class="form_button">add text</button>
+            <br class="br_size">
             <button value="send_image" onclick="sumbit_editied_image(event)" class="form_button">send message request</button>
         </form>
-        <canvas id="edit_image_canvas" width="1000" height="1000" class="centerized_canvas"></canvas>
+        <canvas id="edit_image_canvas" width="10vw" height="10vw"></canvas>
         <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
         <script src="{{url_for('static', filename='NetworkUtils.js')}}"></script>
         <script src="{{url_for('static', filename='format_message.js')}}"></script>
