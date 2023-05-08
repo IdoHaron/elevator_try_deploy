@@ -36,7 +36,8 @@ function add_text_to_canvas(event){
     const text = document.getElementById("text_on_image").value;
     our_canvas.add_text_to_canvas(text, {
         fill: 'black',
-        moveCursor: 'pointer'
+        moveCursor: 'pointer',
+        fontSize:40
     });
 }
 const canvas_height = window.innerHeight / 2;

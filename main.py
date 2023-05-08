@@ -24,7 +24,7 @@ port = environ.get('PORT')
 board_int = JsonElevatorBoardsTable(databases /"actual_dbs"/"ElevatorBoard.json")
 # users_db = UsersBoard(Path("databases/actual_dbs/users_db.json"))
 
-json_template_db = JsonTemplatesDB(databases/"templates"/"templates.json")
+json_template_db = JsonTemplatesDB(databases/"actual_dbs"/"templates.json")
 screen_db = ScreenJsonDB(path_to_db=databases/"actual_dbs"/"current_image_board.json")
 users_db = JsonUsersBoard(databases / "actual_dbs" / "users_db.json" )
 security_module = UserLoginSecurity(users_db)

@@ -15,7 +15,7 @@ databases = Path(getcwd()).parent.parent/"databases"
 board_int = JsonElevatorBoardsTable(databases /"actual_dbs"/"ElevatorBoard.json")
 # users_db = UsersBoard(Path("databases/actual_dbs/users_db.json"))
 
-json_template_db = JsonTemplatesDB(databases/"templates"/"templates.json")
+json_template_db = J JsonTemplatesDB(databases/"actual_dbs"/"templates.json")
 screen_db = ScreenJsonDB(path_to_db=databases/"actual_dbs"/"current_image_board.json")
 
 FlaskMessageServer(DummyInput(), EverythingPasses(), board_int, template_db=json_template_db, screen_db=screen_db)
