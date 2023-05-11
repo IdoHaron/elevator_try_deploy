@@ -5,6 +5,7 @@ from pathlib import Path
 from utils.decorators import singleton
 from json import load
 from databases.json_db import JsonDB
+from databases.screen_dbs.screen.Screen import Screen
 
 @singleton
 class ScreenJsonDB(ScreenDB,JsonDB):
@@ -12,9 +13,12 @@ class ScreenJsonDB(ScreenDB,JsonDB):
         super().__init__(path_to_db)
 
     def _load_db(self, path_current_db_state:Path):
+        database_state = {}
         with path_current_db_state.open("r") as f:
             x = load(f)
-        return x
+        for screen in x.keys:
+            database_state[screen] = Screen(x[screen])
+        return database_state
 
     def modify_screen(self, screen_id, image:str):
         # need to verify screen exists.

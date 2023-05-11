@@ -1,11 +1,13 @@
 from abc import abstractmethod
 from exceptions.database_error.exceptions import ValueNotFound
+from databases.screen_dbs.screen.Screen import Screen
+from typing import Dict
 
 class ScreenDB:
     modified_screens:set = set()
 
     def __init__(self, path_current_db_state):
-        self._current_db_state:dict = self._load_db(path_current_db_state)
+        self._current_db_state:Dict[str, Screen] = self._load_db(path_current_db_state)
         self.database_path =path_current_db_state
 
     @abstractmethod

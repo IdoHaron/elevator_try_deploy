@@ -17,6 +17,8 @@ async function sumbit_editied_image(event){
     const form_path =document.getElementById(board_form).action;
     // add support to form upload.
     NetworkUtils.send_request(form_path, "POST", JSON.stringify({"image": canvas_to_hex, "destination":chosen_board}))
+    alert("Image added to screen")
+
 
 };
 
