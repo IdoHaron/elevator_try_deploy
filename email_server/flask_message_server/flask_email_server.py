@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 
 #TODO(Ido): learn how to minimaize outside exposure of modules __all__
 from email_server.message_server import MessageServer
@@ -15,6 +16,7 @@ from importlib import reload
 from databases.elevator_board.elevator_boards_table import ElevatorBoardsTable
 from server.utils import string_to_select_entry, start_select_entry, end_select_entry
 from databases.template.templates_db import TemplatesDB
+from databases.screen_dbs.screen.image import Image
 from base64 import b64encode
 from databases.screen_dbs.screen_db import ScreenDB
 
@@ -104,7 +106,8 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @login_required
     def new_image():
         data = loads(request.data.decode("ASCII"))
-        FlaskMessageServer.server_instace._screen_db.modify_screen(data["destination"],data["image"])
+        image_data = json.loads(data["image"])
+        FlaskMessageServer.server_instace._screen_db.modify_screen(data["destination"],Image(**image_data))
         return ""
         # board_name, image_in_code = request.form["board_name"], request.form["image"]
 

@@ -27,10 +27,18 @@
             <br>
             <div class="form_text">text to add:</div> <input type="text" id="text_on_image">
             <br>
-            <div class="form_text">choose board:</div> <select id="board">
+            <div class="form_text">choose board:</div> 
+            <select id="board">
                 {% for board in boards: %}
                     <option value={{board}}>{{board}}</option>
                 {% endfor %}
+            </select>
+            <br>
+            <div class="form_text"> image presentation time:</div>
+            <select id="timeslots">
+                {% for time_option in range(1, 6) %}
+                    <option value="{{time_option}}">{{time_option*5}}</option>
+                {%endfor%}
             </select>
             <br>
             <button onclick="add_text_to_canvas(event)" class="form_button">add text</button>

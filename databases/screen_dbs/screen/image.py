@@ -6,13 +6,20 @@ from utils import RandomUtils
 
 class Image:
     current_allocated_ids = []
-    def __init__(self, image_encoding:str, date_range:Tuple[datetime, datetime]= None, img_id:str=""):
+    def __init__(self, image_encoding:str, date_range:Tuple[datetime, datetime]= None, image_time:int=2, img_id:str=""):
         if img_id =="":
-            img_id = RandomUtils.choose_number_not_in_list(min(self.current_allocated_ids)+1, max(self.current_allocated_ids), self.current_allocated_ids)
+            if len(self.current_allocated_ids)==0:
+                img_id=0
+            elif max(self.current_allocated_ids)-min(self.current_allocated_ids) >= len(self.current_allocated_ids)-1:
+                img_id = max(self.current_allocated_ids) + 1
+            else:
+                img_id = RandomUtils.choose_number_not_in_list(min(self.current_allocated_ids)+1, max(self.current_allocated_ids), self.current_allocated_ids)
             # id = # to generate
         self.id = img_id
         self.encoding = image_encoding
         self.date_range = date_range
+        self.image_time = image_time
+        self.current_allocated_ids.append(img_id)
 
     def image_expired(self):
         return datetime.now() > self.date_range[1]

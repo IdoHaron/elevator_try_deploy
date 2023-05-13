@@ -2,6 +2,7 @@ from abc import abstractmethod
 from exceptions.database_error.exceptions import ValueNotFound
 from databases.screen_dbs.screen.Screen import Screen
 from typing import Dict
+from databases.screen_dbs.screen.image import Image
 
 class ScreenDB:
     modified_screens:set = set()
@@ -19,7 +20,7 @@ class ScreenDB:
             raise ValueNotFound
         if screen_id in self.modified_screens:
             self.modified_screens.remove(screen_id)
-        return self._current_db_state[screen_id]
+        return self._current_db_state[screen_id].current_image()
 
     def did_image_modify(self, screen_id:str):
         """
@@ -32,7 +33,7 @@ class ScreenDB:
     def _modified_screen(self, screen_id:str):
         self.modified_screens.add(screen_id)
     @abstractmethod
-    def modify_screen(self, screen_id:str, image:str):
+    def modify_screen(self, screen_id:str, image:Image):
         raise NotImplementedError
 
     def __dict__(self):

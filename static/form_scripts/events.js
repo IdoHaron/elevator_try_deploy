@@ -1,5 +1,6 @@
 const to_board_select = "board"
 const board_form = "message_construct"
+const image_presentation = "timeslots"
 const canvas = new fabric.Canvas("edit_image_canvas");
 
 
@@ -13,10 +14,16 @@ async function sumbit_editied_image(event){
     event.preventDefault();
     console.log("submited!!");
     const canvas_to_hex = our_canvas.convert_to_hex();
+
     const chosen_board = document.getElementById(to_board_select).value;
     const form_path =document.getElementById(board_form).action;
+    const amount_of_time = document.getElementById(image_presentation).value;
+    const image = JSON.stringify({
+        "image_encoding": canvas_to_hex,
+        "image_time": amount_of_time
+    });
     // add support to form upload.
-    NetworkUtils.send_request(form_path, "POST", JSON.stringify({"image": canvas_to_hex, "destination":chosen_board}))
+    NetworkUtils.send_request(form_path, "POST", JSON.stringify({"image": image, "destination":chosen_board}))
     alert("Image added to screen")
 
 
