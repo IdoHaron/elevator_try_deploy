@@ -28,7 +28,10 @@ class ScreenJsonDB(ScreenDB,JsonDB):
         self._save_db()
 
     def __dict__(self):
-        return self._current_db_state.copy()
+        dict_to_return = {}
+        for screen in self._current_db_state.keys():
+            dict_to_return[screen] = self._current_db_state[screen].__dict__()
+        return dict_to_return
 
     def _save_db(self):
         with self.database_path.open("w") as f:

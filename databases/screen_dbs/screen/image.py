@@ -1,13 +1,13 @@
 from databases.screen_dbs.screen.__consts import default_time_window
-from typing import Tuple
+from typing import Tuple, Union
 from datetime import datetime
 from random import choice
 from utils import RandomUtils
 
 class Image:
     current_allocated_ids = []
-    def __init__(self, image_encoding:str, date_range:Tuple[datetime, datetime]= None, image_time:int=2, img_id:str=""):
-        if img_id =="":
+    def __init__(self, image_encoding:str, date_range:Tuple[datetime, datetime]= None, image_time:int=2, img_id:Union[int,None]= None):
+        if img_id is None:
             if len(self.current_allocated_ids)==0:
                 img_id=0
             elif max(self.current_allocated_ids)-min(self.current_allocated_ids) >= len(self.current_allocated_ids)-1:
@@ -15,13 +15,15 @@ class Image:
             else:
                 img_id = RandomUtils.choose_number_not_in_list(min(self.current_allocated_ids)+1, max(self.current_allocated_ids), self.current_allocated_ids)
             # id = # to generate
-        self.id = img_id
+        self.id = int(img_id)
         self.encoding = image_encoding
         self.date_range = date_range
-        self.image_time = image_time
+        self.image_time = int(image_time)
         self.current_allocated_ids.append(img_id)
 
     def image_expired(self):
+        if self.date_range is None:
+            return False
         return datetime.now() > self.date_range[1]
 
     def in_range(self):
@@ -29,7 +31,11 @@ class Image:
 
 
     def __dict__(self):
-        return {
-            "encoding": self.encoding,
-            "date_range": self.date_range.__dict__
+        dict_to_return =  {
+            "img_id": self.id,
+            "image_time": self.image_time,
+            "image_encoding": self.encoding
         }
+        if self.date_range is not None:
+            dict_to_return["date_range"] = (self.date_range[0].__dict__, self.date_range[1].__dict__)
+        return dict_to_return
