@@ -48,3 +48,6 @@ class Screen:
             if not i.image_expired():
                 result.append(i.__dict__())
         return result
+
+    def flush(self):
+        self.clear_images()

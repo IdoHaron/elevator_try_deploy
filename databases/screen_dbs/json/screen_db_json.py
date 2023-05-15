@@ -36,3 +36,6 @@ class ScreenJsonDB(ScreenDB,JsonDB):
     def _save_db(self):
         with self.database_path.open("w") as f:
             json.dump(self.__dict__(), f)
+
+    def flush_screen(self, screen_id:str):
+        self._current_db_state[screen_id].flush()

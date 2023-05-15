@@ -12,5 +12,9 @@ class NetworkUtils{
         const wanted_route = NetworkUtils.current_server_loc + "/" + route
         return NetworkUtils.send_request(wanted_route, "GET", null);
     }
+
+    static ping_server(){
+        return NetworkUtils.request_from_route("route_to_ping")
+    }
 }
 

@@ -54,9 +54,6 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         print("here")
         return FlaskMessageServer.server_instace._message_manager.get_new_messages(board_id)
 
-    def get_app(self):
-        return FlaskServer._SERVER
-
     @staticmethod
     @FlaskServer._SERVER.route("/")
     def load_login_page():
@@ -127,3 +124,8 @@ class FlaskMessageServer(FlaskServer, MessageServer):
             return render_template("elevator_client.html", screen_id=elevator_id,
                                    current_img=FlaskMessageServer.server_instace._screen_db.get_image(elevator_id))
         return "sorry, page not found"
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/route_to_ping")
+    def check_connection():
+        return True

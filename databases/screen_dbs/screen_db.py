@@ -39,9 +39,13 @@ class ScreenDB:
     def __dict__(self):
         return self._current_db_state.copy()
 
-    def legal_screen_id(self, screen_id) -> bool:
+    def legal_screen_id(self, screen_id:str) -> bool:
         return screen_id in self.__dict__().keys()
 
     @abstractmethod
     def _save_db(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def flush_screen(self, screen_id:str):
         raise NotImplementedError
