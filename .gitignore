@@ -4,3 +4,4 @@
 *.
 login_details.py
 cred.py
+.env
