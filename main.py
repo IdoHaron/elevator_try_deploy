@@ -14,9 +14,12 @@ from os import environ
 from os import getcwd
 from databases.screen_dbs.json.screen_db_json import ScreenJsonDB
 from dotenv import load_dotenv
+import sys
+
 load_dotenv()
 databases = Path(getcwd())/"databases"
 print(databases)
+print(f"python version: {sys.version}")
 
 #port = 3000
 #if False:

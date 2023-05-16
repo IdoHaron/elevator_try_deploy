@@ -33,7 +33,7 @@ class ScreenDB:
     def _modified_screen(self, screen_id:str):
         self.modified_screens.add(screen_id)
     @abstractmethod
-    def modify_screen(self, screen_id:str, image:Image):
+    def add_image_to_screen(self, screen_id:str, image:Image):
         raise NotImplementedError
 
     def __dict__(self):
@@ -41,6 +41,10 @@ class ScreenDB:
 
     def legal_screen_id(self, screen_id:str) -> bool:
         return screen_id in self.__dict__().keys()
+
+    @abstractmethod
+    def remove_image(self, screen_id:str, image_id:int):
+        raise NotImplementedError
 
     @abstractmethod
     def _save_db(self):

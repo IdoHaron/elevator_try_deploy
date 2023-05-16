@@ -104,7 +104,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     def new_image():
         data = loads(request.data.decode("ASCII"))
         image_data = json.loads(data["image"])
-        FlaskMessageServer.server_instace._screen_db.modify_screen(data["destination"],Image(**image_data))
+        FlaskMessageServer.server_instace._screen_db.add_image_to_screen(data["destination"], Image(**image_data))
         return ""
         # board_name, image_in_code = request.form["board_name"], request.form["image"]
 
@@ -129,3 +129,13 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @FlaskServer._SERVER.route("/route_to_ping")
     def check_connection():
         return True
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/remove_image")
+    def remove_image():
+        data = loads(request.data.decode("ASCII"))
+        FlaskMessageServer.server_instace._screen_db.remove_image(data["destination"],data["image_id"])
+
+
+#TODO(Ido): implement on the client a show images to delete, and implement request sending.
+

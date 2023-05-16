@@ -1,13 +1,16 @@
 const to_board_select = "board"
 const board_form = "message_construct"
 const image_presentation = "timeslots"
+const time_range_selector = document.getElementById("is_image_time_limited");
 const canvas = new fabric.Canvas("edit_image_canvas");
+const time_choosing_element = document.getElementById("image_time_limitation");
 
 
 async function onload_body(){
     await sleep(10);
-    const image_input_obj = document.getElementById(ImgSrcManagement.image_source_select_id);
-    ImgSrcManagement.update_input_option(image_input_obj);
+    const image_input_selector = document.getElementById(ImgSrcManagement.image_source_select_id);
+    ImgSrcManagement.update_input_option(image_input_selector);
+    change_visability_of_time_element(time_range_selector);
 }
 
 async function sumbit_editied_image(event){
@@ -18,16 +21,37 @@ async function sumbit_editied_image(event){
     const chosen_board = document.getElementById(to_board_select).value;
     const form_path =document.getElementById(board_form).action;
     const amount_of_time = document.getElementById(image_presentation).value;
-    const image = JSON.stringify({
-        "image_encoding": canvas_to_hex,
-        "image_time": amount_of_time
-    });
+    let image;
+    if (time_range_selector == "no"){
+        image = JSON.stringify({
+            "image_encoding": canvas_to_hex,
+            "image_time": amount_of_time
+       });
+    }
+    else{
+        image = JSON.stringify({
+            "image_encoding": canvas_to_hex,
+            "image_time": amount_of_time,
+            "image_time_range": time_choosing_element.value
+       });
+    }
     // add support to form upload.
     NetworkUtils.send_request(form_path, "POST", JSON.stringify({"image": image, "destination":chosen_board}))
     alert("Image added to screen")
 
 
 };
+
+
+function change_visability_of_time_element(element_pointer){
+    if (element_pointer.value == "yes"){
+        show_element(time_choosing_element)
+    }
+    else{
+        hide_element(time_choosing_element);
+    }
+}
+
 
 
 async function on_change_template(element_pointer){

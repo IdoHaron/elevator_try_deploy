@@ -1,7 +1,7 @@
 import dataclasses
 
 from databases.screen_dbs.screen.image import Image
-from typing import List
+from typing import Dict, List
 from databases.screen_dbs.screen.current_image_manager import CurrentScreenManager
 class Screen:
     @dataclasses.dataclass
@@ -10,9 +10,10 @@ class Screen:
         in_image_itter_index:int
 
     def __init__(self, images_to_present:List[dict]):
-        self.images:List[Image] = []
+        self.images:Dict[int, Image] = {}
         for image in images_to_present:
-            self.images.append(Image(**image))
+            new_img = Image(**image)
+            self.images[new_img.id] = new_img
 
         self.__current_index = Screen.__ImageIndex(0, 0)
         CurrentScreenManager.add_screen(self)
@@ -23,10 +24,13 @@ class Screen:
         return self.__current_index.image_index
 
     def current_image(self):
-        return self.images[self.current_index].encoding
+        return list(self.images.values())[self.current_index].encoding
+
+    def remove_image(self, image_id:int):
+        del self.images[image_id]
 
     def add_image(self, image:Image):
-        self.images.append(image)
+        self.images[image.id] = image
 
     def clear_images(self):
         self.__current_index = Screen.__ImageIndex(0, 0)
@@ -44,7 +48,7 @@ class Screen:
 
     def __dict__(self):
         result = []
-        for i in self.images:
+        for i in self.images.values():
             if not i.image_expired():
                 result.append(i.__dict__())
         return result

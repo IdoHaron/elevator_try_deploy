@@ -21,7 +21,7 @@ class ScreenJsonDB(ScreenDB,JsonDB):
             database_state[screen] = Screen(x[screen])
         return database_state
 
-    def modify_screen(self, screen_id, image:Image):
+    def add_image_to_screen(self, screen_id, image:Image):
         # need to verify screen exists.
         self._modified_screen(screen_id)
         self._current_db_state[screen_id].add_image(image)
@@ -33,6 +33,8 @@ class ScreenJsonDB(ScreenDB,JsonDB):
             dict_to_return[screen] = self._current_db_state[screen].__dict__()
         return dict_to_return
 
+    def remove_image(self, screen_id:str, image_id:int):
+        self._current_db_state[screen_id].remove_image(image_id)
     def _save_db(self):
         with self.database_path.open("w") as f:
             json.dump(self.__dict__(), f)

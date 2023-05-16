@@ -5,6 +5,22 @@
 
     <!--action="/new_image"-->
     <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(function() {
+          $('input[name="datetimes"]').daterangepicker({
+            timePicker: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(32, 'hour'),
+            locale: {
+              format: 'M/DD hh:mm A'
+            }
+          });
+        });
+        </script>
     </head>
     <body onload="onload_body()" style="height:100vh">
         <form method="POST" id="message_construct"  action="/new_image">
@@ -40,6 +56,13 @@
                     <option value="{{time_option}}">{{time_option*5}}</option>
                 {%endfor%}
             </select>
+            <br>
+            <div class="form_text">image with time limit: </div> <select id="is_image_time_limited" onchange="change_visability_of_time_element(this)">
+                <option value="yes">yes</option>
+                <option value="no" selected>no</option>
+            </select>
+            <br>
+            <input id="image_time_limitation" type="text" name="datetimes" value="01/01/2018 - 01/15/2018" />
             <br>
             <button onclick="add_text_to_canvas(event)" class="form_button">add text</button>
             <br class="br_size">
