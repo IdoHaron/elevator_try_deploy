@@ -23,8 +23,15 @@ class Screen:
         self.__current_index.image_index = self.__current_index.image_index % len(self.images)
         return self.__current_index.image_index
 
-    def current_image(self):
-        return list(self.images.values())[self.current_index].encoding
+    def __current_image(self):
+        return list(self.images.values())[self.current_index]
+
+    def current_image_encoding(self):
+        """
+        visual current image
+        :return:
+        """
+        return self.__current_image().encoding
 
     def remove_image(self, image_id:int):
         del self.images[image_id]
@@ -37,9 +44,21 @@ class Screen:
         self.images = []
 
     def itterate(self):
-        current_image = self.images[self.__current_index.image_index]
-        if self.__current_index.in_image_itter_index+ 1 < current_image.image_time:
-            self.__current_index.in_image_itter_index+=1
+        self.__inc()
+        if self.__current_image().image_expired():
+            current_image_id = self.__current_image().id
+            self.remove_image(current_image_id)
+        self.__current_index.image_index = self.__current_index.image_index % len(self.images)
+        if not self.__current_image().image_premature():
+            return
+        self.__current_index.image_index += 1
+        self.__current_index.image_index = self.__current_index.image_index % len(self.images)
+        self.__current_index.in_image_itter_index = 0
+
+    def __inc(self):
+        current_image = self.__current_image()
+        if self.__current_index.in_image_itter_index + 1 < current_image.image_time:
+            self.__current_index.in_image_itter_index += 1
             return
         self.__current_index.image_index += 1
         self.__current_index.image_index = self.__current_index.image_index % len(self.images)

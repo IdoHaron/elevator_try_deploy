@@ -20,7 +20,7 @@ class ScreenDB:
             raise ValueNotFound
         if screen_id in self.modified_screens:
             self.modified_screens.remove(screen_id)
-        return self._current_db_state[screen_id].current_image()
+        return self._current_db_state[screen_id].current_image_encoding()
 
     def did_image_modify(self, screen_id:str):
         """
