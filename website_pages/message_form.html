@@ -16,7 +16,7 @@
             startDate: moment().startOf('hour'),
             endDate: moment().startOf('hour').add(32, 'hour'),
             locale: {
-              format: 'M/DD hh:mm A'
+              format: 'DD/M HH:mm Y'
             }
           });
         });
@@ -62,22 +62,23 @@
                 <option value="no" selected>no</option>
             </select>
             <br>
+            <!-- TODO(Ido): add support for years-->
             <input id="image_time_limitation" type="text" name="datetimes" value="01/01/2018 - 01/15/2018" />
             <br>
             <button onclick="add_text_to_canvas(event)" class="form_button">add text</button>
             <br class="br_size">
             <button value="add_image_to_screen" onclick="sumbit_editied_image(event)" class="form_button">add image to screen</button>
             <br class="br_size">
-            <button value="clear_screen" class="form_button">clear screen</button>
+            <!-- tton value="clear_screen" class="form_button">clear screen</button!-->
         </form>
         <canvas id="edit_image_canvas" width="10vw" height="10vw"></canvas>
         <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
-        <script src="{{url_for('static', filename='NetworkUtils.js')}}"></script>
+        <script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>
         <script src="{{url_for('static', filename='format_message.js')}}"></script>
-        <script src="{{url_for('static', filename='utils.js')}}"></script>
-        <script src="{{url_for('static', filename='form_scripts/image_canvas.js')}}"></script>
-        <script src="{{url_for('static', filename='form_scripts/image_upload_manaement.js')}}"></script>
-        <script src="{{url_for('static', filename='form_scripts/image_source_managment.js')}}"></script>
-        <script src="{{url_for('static', filename='form_scripts/events.js')}}"></script>
+        <script src="{{url_for('static', filename='utils/utils.js')}}"></script>
+        <script src="{{url_for('static', filename='add_image_scripts/image_canvas.js')}}"></script>
+        <script src="{{url_for('static', filename='add_image_scripts/image_upload_manaement.js')}}"></script>
+        <script src="{{url_for('static', filename='add_image_scripts/image_source_managment.js')}}"></script>
+        <script src="{{url_for('static', filename='add_image_scripts/events.js')}}"></script>
     </body>
 </html>

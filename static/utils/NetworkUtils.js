@@ -16,5 +16,8 @@ class NetworkUtils{
     static ping_server(){
         return NetworkUtils.request_from_route("route_to_ping")
     }
+    static redirect_page(sub_path){
+        window.location.replace(NetworkUtils.current_server_loc+"/"+sub_path)
+    }
 }
 

@@ -16,12 +16,21 @@ class RandomUtils:
         return RandomUtils.choose_randomly_from_list(list(all_possible))
 
 class DateTimeUtils(ABC):
-    time_as_string = ""
+    time_as_string = "%y%y%y%y-%m%m-%d%d %h%h:%M%M:%s%s"
     @staticmethod
     @abstractmethod
     def construct_datetime(time:DateTime):
-        if time is str:
+        if type(time) is str:
             return datetime.strptime(DateTimeUtils.time_as_string, time)
-        elif time is datetime:
+        elif type(time) is datetime:
             return time
+        elif type(time) is dict:
+            time = convert_string_to_int(time)
+            print(time)
+            return datetime(**time)
         raise TypeNotFound
+
+def convert_string_to_int(dict_time)->dict:
+    for key in dict_time.keys():
+        dict_time[key] = int(dict_time[key])
+    return dict_time

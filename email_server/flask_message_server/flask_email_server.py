@@ -8,6 +8,7 @@ from server.flask_server.flask_server import FlaskServer
 from flask import render_template, request, redirect
 from input_pipelines.input_pipeline import InputPipeline
 from utils.decorators import singleton
+from databases.screen_dbs.screen.image import Image
 from security_modules.security_module import SecurityModule
 from json import loads
 from flask_login import LoginManager, login_user, login_required,current_user
@@ -71,7 +72,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
             login_user(user_object)
             print(f"and the user object is with: {user_object.is_authenticated()} authentication value")
         #TODO(ido): add check for url safe for  redirection
-            return redirect(next or "/message_form_window")
+            return redirect(next or "/homepage")
         return redirect(next or  "/")
 
     @staticmethod
@@ -136,6 +137,32 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         data = loads(request.data.decode("ASCII"))
         FlaskMessageServer.server_instace._screen_db.remove_image(data["destination"],data["image_id"])
 
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/image/<image_id>")
+    def get_image(image_id:str):
+        return Image.images_map[int(image_id)]
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/manage_screen/<screen_id>")
+    @login_required
+    def manage_screen(screen_id:str):
+        images = FlaskMessageServer.server_instace._screen_db.get_images(screen_id)
+        return render_template("manage_screen.html", image_ids=[image_id for image in images])
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/homepage")
+    def homepage():
+        print(current_user)
+        connected_user_id = current_user.get_id()
+        server_instance = FlaskMessageServer.server_instace
+        boards = server_instance.user_to_screen_db_class.fetch_info_by_id(connected_user_id)
+        constructed__boards_string = start_select_entry(server_instance.board_select_name)
+        for board in boards:
+            constructed__boards_string += string_to_select_entry(board.board_name)
+        constructed__boards_string += end_select_entry()
+        print(constructed__boards_string)
+        return render_template("homepage.html", boards=[board.board_name for board in boards])
 
 #TODO(Ido): implement on the client a show images to delete, and implement request sending.
 

@@ -22,6 +22,9 @@ class ScreenDB:
             self.modified_screens.remove(screen_id)
         return self._current_db_state[screen_id].current_image_encoding()
 
+    def get_images(self, screen_id:str):
+        return self._current_db_state[screen_id]
+
     def did_image_modify(self, screen_id:str):
         """
         :param screen_id: the id to check if modified

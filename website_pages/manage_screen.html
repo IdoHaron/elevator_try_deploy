@@ -1,0 +1,31 @@
+<!--
+    TODO:
+    1. add a canvas to show and image
+    2. fetch images from server, add the possibility to select image from the ones on scree
+    3. allow to remove a selected image
+    4. show dates, and other info about the image
+    5. add clearscreen.
+    6. BONUS: allow to change date or image duration
+-->
+
+<html>
+    <head></head>
+    <body>
+        select image:
+        <select id="image" onchange="on_change_image(this)">
+            {% for image_id in image_ids: %}
+                <option value={{image_id}}>{{image_id}}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <canvas id="present_image"></canvas>
+        <br>
+        <button value="add_image_to_screen" onclick="remove_image(this)" class="form_button">remove image from screen</button>
+        <br>
+        <br>
+        <button value="clear_screen" class="form_button">clear screen</button>
+    </body>
+    <script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>
+    <script src="{{url_for('static', filename='utils/canvas_utils.js')}}"></script>
+    <script src="{{url_for('static', filename='screen_management/events.js')}}"></script>
+</html>
