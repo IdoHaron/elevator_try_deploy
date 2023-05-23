@@ -1,4 +1,4 @@
-const to_board_select = "board"
+const screen_id = "screen_id"
 const board_form = "message_construct"
 const image_presentation = "timeslots"
 const time_range_selector = document.getElementById("is_image_time_limited");
@@ -32,7 +32,7 @@ async function sumbit_editied_image(event){
     console.log("submited!!");
     const canvas_to_hex = our_canvas.convert_to_hex();
 
-    const chosen_board = document.getElementById(to_board_select).value;
+    const chosen_board = document.getElementById(screen_id).innerText;
     const form_path =document.getElementById(board_form).action;
     const amount_of_time = document.getElementById(image_presentation).value;
     let image_date_range = time_choosing_element.value.split(" - ");

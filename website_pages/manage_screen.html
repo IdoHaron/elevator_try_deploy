@@ -10,12 +10,12 @@
 
 <html>
     <head>
-        <data id="board">{{board_id}}</data>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <data id="board" hidden>{{board_id}}</data>
+        <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
 
     </head>
-    <body>
-        select image:
+    <body style="height:100vh" style="text-align: center;">
+        <div class="form_text">select image:</div>
         <select id="image" onchange="on_change_image(this)">
             {% for image_id in image_ids: %}
                 <option value={{image_id}}>{{image_id}}</option>

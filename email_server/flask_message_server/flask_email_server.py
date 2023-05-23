@@ -82,22 +82,17 @@ class FlaskMessageServer(FlaskServer, MessageServer):
 
     
     @staticmethod
-    @FlaskServer._SERVER.route("/message_form_window")
-    def message_form_window():
+    @FlaskServer._SERVER.route("/add_image_to_screen/<screen_id>")
+    def message_form_window(screen_id):
         #TODO(Ido): might be worth to unite with the post location
         #TODO(Ido): read about serving with images, think about how to make the templates dynamic so other templates could be showed.
         print(current_user)
-        connected_user_id = current_user.get_id()
-        server_instance = FlaskMessageServer.server_instace
-        boards= server_instance.user_to_screen_db_class.fetch_info_by_id(connected_user_id)
-        constructed__boards_string = start_select_entry(server_instance.board_select_name)
-        for board in boards:
-            constructed__boards_string += string_to_select_entry(board.board_name)
-        constructed__boards_string+= end_select_entry()
-        print(constructed__boards_string)
-        return render_template("message_form.html", boards=[board.board_name for board in boards],
+        if not FlaskMessageServer.server_instace.screen_of_user(current_user, screen_id):
+            return "404"
+        return render_template("message_form.html", screen_id=screen_id,
                                templates=FlaskMessageServer.server_instace._template_db.get_all_templates()
                                )
+
 
     @staticmethod
     @FlaskServer._SERVER.route("/new_image", methods=["POST"])
@@ -165,6 +160,10 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         constructed__boards_string += end_select_entry()
         print(constructed__boards_string)
         return render_template("homepage.html", boards=[board.board_name for board in boards])
+
+    def screen_of_user(self, current_user, screen):
+        return True
+
 
 #TODO(Ido): implement on the client a show images to delete, and implement request sending.
 

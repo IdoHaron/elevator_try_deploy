@@ -21,6 +21,7 @@
           });
         });
         </script>
+    <data id="screen_id" hidden>{{screen_id}}</data>
     </head>
     <body onload="onload_body()" style="height:100vh">
         <form method="POST" id="message_construct"  action="/new_image">
@@ -42,13 +43,6 @@
             <input type="file" id="user_image" name="user_image" accept=".jpg, .jpeg, .png" onchange="UserFileUpload.on_file_upload(this)" class = "centerized">
             <br>
             <div class="form_text">text to add:</div> <input type="text" id="text_on_image">
-            <br>
-            <div class="form_text">choose board:</div> 
-            <select id="board">
-                {% for board in boards: %}
-                    <option value={{board}}>{{board}}</option>
-                {% endfor %}
-            </select>
             <br>
             <div class="form_text"> image presentation time:</div>
             <select id="timeslots">
