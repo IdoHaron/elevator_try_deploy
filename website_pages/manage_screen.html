@@ -9,7 +9,11 @@
 -->
 
 <html>
-    <head></head>
+    <head>
+        <data id="board">{{board_id}}</data>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    </head>
     <body>
         select image:
         <select id="image" onchange="on_change_image(this)">
@@ -27,5 +31,6 @@
     </body>
     <script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>
     <script src="{{url_for('static', filename='utils/canvas_utils.js')}}"></script>
+    <script src="{{url_for('static', filename='utils/select_utils.js')}}"></script>
     <script src="{{url_for('static', filename='screen_management/events.js')}}"></script>
 </html>

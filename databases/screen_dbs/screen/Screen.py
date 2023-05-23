@@ -34,14 +34,21 @@ class Screen:
         return self.__current_image().encoding
 
     def remove_image(self, image_id:int):
-        del self.images[image_id]
+        try:
+            image_id = int(image_id)
+            self.images.pop(image_id)
+        except:
+            print(f"{self.images.keys()}  {image_id}")
+            self.images[image_id] = None
+            print(f"{self.images.keys()}  {image_id}")
+
 
     def add_image(self, image:Image):
         self.images[image.id] = image
 
     def clear_images(self):
         self.__current_index = Screen.__ImageIndex(0, 0)
-        self.images = []
+        self.images = {}
 
     def itterate(self):
         self.__inc()
@@ -57,7 +64,8 @@ class Screen:
 
     def __inc(self):
         current_image = self.__current_image()
-        if self.__current_index.in_image_itter_index + 1 < current_image.image_time:
+
+        if current_image is not None and self.__current_index.in_image_itter_index + 1 < current_image.image_time:
             self.__current_index.in_image_itter_index += 1
             return
         self.__current_index.image_index += 1

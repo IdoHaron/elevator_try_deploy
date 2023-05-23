@@ -35,4 +35,3 @@ security_module = EverythingPasses()
 
 x = FlaskMessageServer(DummyInput(), security_module, board_int, template_db=json_template_db, screen_db=screen_db,
                    port=int(port))
-app = x.get_app()

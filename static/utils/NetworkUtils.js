@@ -8,9 +8,17 @@ class NetworkUtils{
         return NetworkUtils.xmlHttp.responseText
     }
     
-    static request_from_route(route){
+    static request_from_route(route, request_type, content){
+        if (request_type === undefined){
+            request_type = "GET"
+        }
+        if (content === undefined){
+            content = null;
+        }
+        content = JSON.stringify(content);
+        console.log(content);
         const wanted_route = NetworkUtils.current_server_loc + "/" + route
-        return NetworkUtils.send_request(wanted_route, "GET", null);
+        return NetworkUtils.send_request(wanted_route, request_type, content);
     }
 
     static ping_server(){

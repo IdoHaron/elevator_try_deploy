@@ -132,23 +132,25 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         return True
 
     @staticmethod
-    @FlaskServer._SERVER.route("/remove_image")
+    @FlaskServer._SERVER.route("/remove_image", methods=["POST"])
     def remove_image():
-        data = loads(request.data.decode("ASCII"))
+        data =request.data.decode("ASCII")
+        data = loads(data)
         FlaskMessageServer.server_instace._screen_db.remove_image(data["destination"],data["image_id"])
+        return {"suc": True}
 
 
     @staticmethod
     @FlaskServer._SERVER.route("/image/<image_id>")
     def get_image(image_id:str):
-        return Image.images_map[int(image_id)]
+        return json.dumps(Image.images_map[int(image_id)].__dict__())
 
     @staticmethod
     @FlaskServer._SERVER.route("/manage_screen/<screen_id>")
     @login_required
     def manage_screen(screen_id:str):
-        images = FlaskMessageServer.server_instace._screen_db.get_images(screen_id)
-        return render_template("manage_screen.html", image_ids=[image_id for image in images])
+        image_ids = FlaskMessageServer.server_instace._screen_db.get_images_id(screen_id)
+        return render_template("manage_screen.html", image_ids=[image_id for image_id in image_ids], board_id=screen_id)
 
     @staticmethod
     @FlaskServer._SERVER.route("/homepage")

@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from exceptions.database_error.exceptions import ValueNotFound
 from databases.screen_dbs.screen.Screen import Screen
-from typing import Dict
+from typing import Dict, List
 from databases.screen_dbs.screen.image import Image
 
 class ScreenDB:
@@ -22,8 +22,8 @@ class ScreenDB:
             self.modified_screens.remove(screen_id)
         return self._current_db_state[screen_id].current_image_encoding()
 
-    def get_images(self, screen_id:str):
-        return self._current_db_state[screen_id]
+    def get_images_id(self, screen_id:str)->List[int]:
+        return list(self._current_db_state[screen_id].images.keys())
 
     def did_image_modify(self, screen_id:str):
         """
