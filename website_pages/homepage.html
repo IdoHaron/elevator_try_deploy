@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>home-page</title>
@@ -9,13 +10,16 @@
     <script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
 </head>
-<body>
+<body style="text-align: center;">
+    <div class="form_text">select board:</div>
     <select id="board">
         {% for board in boards: %}
             <option value={{board}}>{{board}}</option>
         {% endfor %}
     </select>
-    <button onclick="NetworkUtils.redirect_page('manage_screen/'+document.getElementById('board').value)">manage screen</button>
-    <button onclick="NetworkUtils.redirect_page('add_image_to_screen/'+document.getElementById('board').value)">add image to screen</button>
+    <br>
+    <button onclick="NetworkUtils.redirect_page('manage_screen/'+document.getElementById('board').value)" class="login_button">manage screen</button>
+    <br>
+    <button onclick="NetworkUtils.redirect_page('add_image_to_screen/'+document.getElementById('board').value)" class="login_button">add image to screen</button>
 </body>
 </html>
