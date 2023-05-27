@@ -24,7 +24,10 @@ print(f"python version: {sys.version}")
 
 #port = 3000
 #if False:
-port = environ.get('PORT')
+try:
+    port = environ.get('PORT')
+except:
+    port = 8000
 board_int = JsonElevatorBoardsTable(databases /"actual_dbs"/"ElevatorBoard.json")
 # users_db = UsersBoard(Path("databases/actual_dbs/users_db.json"))
 
