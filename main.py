@@ -15,9 +15,10 @@ from os import getcwd
 from databases.screen_dbs.json.screen_db_json import ScreenJsonDB
 from dotenv import load_dotenv
 import sys
+import os
 
 load_dotenv()
-databases = Path(getcwd())/"databases"
+databases = Path(os.path.abspath(__file__)).parent/"databases"
 print(databases)
 print(f"python version: {sys.version}")
 
