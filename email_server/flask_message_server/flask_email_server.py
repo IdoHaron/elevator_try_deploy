@@ -33,7 +33,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
                  template_db:TemplatesDB,
                  screen_db:ScreenDB,
                  wanted_module_name: str = __name__,
-                 host: str = "127.0.0.1", port: int = 80):
+                 host: str = "127.0.0.1", port: int = 80, to_run:bool=True):
         FlaskServer.__init__(self, wanted_module_name=wanted_module_name, path_to_templates=Path("website_pages"))
         MessageServer.__init__(self, message_manager, security_module)
         self.user_to_screen_db_class = user_to_screen_db_class
@@ -41,7 +41,9 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         self._screen_db = screen_db
         self._template_db = template_db
         FlaskMessageServer.server_instace = self
-        FlaskServer._SERVER.run(host=host, port=port)# ,ssl_context='adhoc')
+        self.app =FlaskServer._SERVER
+        if to_run:
+            FlaskServer._SERVER.run(host=host, port=port)# ,ssl_context='adhoc')
         #reload(FlaskMessageServer)
         #self.login_manager.init_app(self._SERVER)
 

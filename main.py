@@ -33,5 +33,13 @@ users_db = JsonUsersBoard(databases / "actual_dbs" / "users_db.json" )
 security_module = UserLoginSecurity(users_db)
 security_module = EverythingPasses()
 
-x = FlaskMessageServer(DummyInput(), security_module, board_int, template_db=json_template_db, screen_db=screen_db,
-                   port=int(port))
+
+if __name__=="__main__":
+    x = FlaskMessageServer(DummyInput(), security_module, board_int, template_db=json_template_db, screen_db=screen_db,
+                           port=int(port), to_run=True)
+else:
+    x = FlaskMessageServer(DummyInput(), security_module, board_int, template_db=json_template_db, screen_db=screen_db,
+                           port=int(port), to_run=False)
+
+app = x.app
+
