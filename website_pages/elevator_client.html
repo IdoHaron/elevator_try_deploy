@@ -1,7 +1,7 @@
 <html>
     <head>
         <script src="{{url_for('static', filename='TimedEvents.js')}}"></script>
-        <script src="{{url_for('static', filename='NetworkUtils.js')}}"></script>
+        <script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>
         <script>
             function page_reload(){
                 // check if internet connection works.
@@ -34,7 +34,6 @@
     </head>
     <body style="height:100vh">
         <img class="center-fit imgbox" id="shown_image" src="{{current_img}}">
-        <script src="{{url_for('static', filename='NetworkUtils.js')}}"></script>
         <script src="{{url_for('static', filename='TimedEvents.js')}}"></script>
         <script src="{{url_for('static', filename='elevator_client.js')}}"></script>
         

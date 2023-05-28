@@ -24,7 +24,7 @@ class RecurringEvent{
     }
     #test_termination(){
         if (this.termination_test_function())
-            this.#termination()
+            this.termination()
     }
     #reset(){
         this.#recurring_interval_id = null
