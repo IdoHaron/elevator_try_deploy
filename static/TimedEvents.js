@@ -1,4 +1,6 @@
 class RecurringEvent{
+    #recurring_interval_id;
+    #termination_test_interval_id;
     constructor(callback_function, time_interval, termination_function, termination_check_interval){
         this.recurring_function = callback_function
         this.recurring_timeout = time_interval
