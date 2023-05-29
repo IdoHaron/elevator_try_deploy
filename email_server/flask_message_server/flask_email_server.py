@@ -117,7 +117,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
 
     @staticmethod
     @FlaskServer._SERVER.route("/elevator/<elevator_id>")
-    def fetch_image_for_elevator(elevator_id:str):
+    def html_page_image_for_elevator(elevator_id:str):
         if  FlaskMessageServer.server_instace._screen_db.legal_screen_id(elevator_id):
             return render_template("elevator_client.html", screen_id=elevator_id,
                                    current_img=FlaskMessageServer.server_instace._screen_db.get_image(elevator_id))
@@ -125,7 +125,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
 
     @staticmethod
     @FlaskServer._SERVER.route("/image/elevator/<elevator_id>")
-    def get_image(elevator_id:str):
+    def get_image_for_elevator(elevator_id:str):
         if  FlaskMessageServer.server_instace._screen_db.legal_screen_id(elevator_id):
             return FlaskMessageServer.server_instace._screen_db.get_image(elevator_id)
         return "sorry, page not found"
