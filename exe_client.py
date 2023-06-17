@@ -1,33 +1,93 @@
-# Import requests, base64, and PIL libraries
+# Import modules
+from __future__ import annotations
 import requests
 import base64
+from PIL import Image, ImageTk
+
+import tkinter as tk
 import time
-from PIL import Image
+import threading
 
-# Define the URL of the server
-url = "https://elevator5.onrender.com/image/elevator/example"
+# Define global variables
+class CurrentTkinterState:
+    image_data = None # To store the current image data
+    window_closed = False # To indicate if the window is closed or not
+    instance:CurrentTkinterState = None
+    def __init__(self):
+        self.window:tk.Tk = None
+        self.label:tk.Label = None
+        self.start()
+        CurrentTkinterState.instance = self
+    def start(self):
+        self.window = tk.Tk()
+        self.label = tk.Label(self.window)
+        self.window.attributes("-fullscreen", True)
+        self.window.overrideredirect(True)
 
-# Define the interval for requesting a new image in seconds
-interval = 10
+    def update_image(self, image:tk.PhotoImage):
+        self.label.config(image=image)
 
-# Create a loop to request a new image every interval
-while True:
-    # Make a GET request to get the image from the server in base64 encoding
-    response = requests.get(url)
+# Define a function that fetches and decodes the image data from the server
 
-    # Check the status code of the response
-    if response.status_code == 200:
-        # Get the base64 string from the response
-        b64string = response.text
-        # Decode the base64 string to bytes
-        b64bytes = base64.b64decode(b64string).decode("ASCII")
-        # Create an image object from the bytes
-        image = Image.open(b64bytes)
-        # Display the image
-        image.show()
-    else:
-        # Print the error message
-        print(f"Error: {response.status_code}")
+CurrentTkinterState()
 
-    # Wait for the interval before requesting a new image
-    time.sleep(interval)
+class ManageImage:
+    web_path = "https://elevator5.onrender.com/image/elevator/example"
+    encoding_format = "data:image/png;base64,"
+    image_data = None
+    need_update = False
+
+    @staticmethod
+    def fetch_image():
+        global image_data # Use the global variable
+        try:
+            # Fetch and decode image data
+            response = requests.get(ManageImage.web_path)
+            byte_string = response.content[len(ManageImage.encoding_format):] # Remove the encoding format prefix
+            binary_data = base64.b64decode(byte_string)
+            # Assign binary data to global variable
+            ManageImage.image_data = binary_data
+            ManageImage.need_update = True
+        except requests.exceptions.ConnectionError:
+            # Print a message if connection error occurs
+            ManageImage.need_update = False
+
+        # here you should update the screen.
+
+# Define a function that creates a new thread to run the update function every 5 seconds
+
+def update_image():
+    ManageImage.fetch_image()
+    print(1)
+    if not ManageImage.need_update:
+        return
+    image = Image.open(ManageImage.image_data)
+    CurrentTkinterState.instance.update_image(ImageTk.PhotoImage(image))
+
+def update_thread():
+    while not CurrentTkinterState.window_closed: # Check if window is still open
+        # Create a new thread to run the update function
+        timer = threading.Timer(5, update_image)
+        timer.start() # Start the thread
+        timer.join() # Wait for the thread to finish
+
+# Open image from binary data
+
+
+# Create tkinter window and label
+
+# Convert PIL image to tkinter photo image
+
+# Set window to full screen mode and remove title bar and borders
+
+# Define a callback function that sets the global flag to False when window is closed
+def on_closing():
+    global window_closed # Use the global flag
+    window_closed = True # Set flag to False
+
+# Set window protocol to call the callback function when window is closed
+CurrentTkinterState.instance.window.protocol("WM_DELETE_WINDOW", on_closing)
+
+CurrentTkinterState.instance.window.after(5000, update_thread)
+# Start main loop
+CurrentTkinterState.instance.window.mainloop()

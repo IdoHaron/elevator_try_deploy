@@ -49,8 +49,10 @@ class Image:
 
     def __dict__(self):
         dict_to_return =  {
-            "img_id": self.id,
-            "image_time": self.image_time,
+            "image_properties":{
+                "img_id": self.id,
+                "image_time": self.image_time
+            },
             "image_encoding": self.encoding
         }
         if self.date_range is not None:
