@@ -146,7 +146,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @staticmethod
     @FlaskServer._SERVER.route("/image/<image_id>")
     def get_image(image_id:str):
-        return json.dumps(Image.images_map[int(image_id)].__dict__())
+        return json.dumps(Image.images_map[int(image_id)].image_description())
 
     @staticmethod
     @FlaskServer._SERVER.route("/manage_screen/<screen_id>")

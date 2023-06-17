@@ -58,3 +58,15 @@ class Image:
         if self.date_range is not None:
             dict_to_return["datetime_range"] = (self.date_range[0].__str__(), self.date_range[1].__str__())
         return dict_to_return
+
+    def image_description(self):
+        dict_to_return =  {
+            "image_properties":{
+                "image id": self.id,
+                "image time": str(self.image_time*default_time_window) + " seconds"
+            },
+            "image_encoding": self.encoding
+        }
+        if self.date_range is not None:
+            dict_to_return["datetime_range"] = (self.date_range[0].__str__(), self.date_range[1].__str__())
+        return dict_to_return

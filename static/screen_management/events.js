@@ -46,10 +46,10 @@ function show_image_properties(jsonData, table_id){
     }
 
     // Start the table tag and add the header row
-    let table = `<table id=${table_id}>`;
-    table += "<tr>";
+    let table = `<table id=${table_id} class="styled-table">`;
+    table += "<tr class=\"active-row\">";
     for (let key of keys) {
-    table += `<th>${key}</th>`;
+        table += `<th>${key}</th>`;
     }
     table += "</tr>";
 
