@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
+    </head>
+    <body>
+        <table class="styled-tleab">
+            {{table_keys}}
+            {%for image_prop in image_props:%}
+                <tr>
+                    {{image_prop}}
+                </tr>
+            {%endfor%}
+        </table>
+    </body>
+</html>

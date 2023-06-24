@@ -5,7 +5,7 @@ import json
 #TODO(Ido): learn how to minimaize outside exposure of modules __all__
 from email_server.message_server import MessageServer
 from server.flask_server.flask_server import FlaskServer
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, Markup
 from input_pipelines.input_pipeline import InputPipeline
 from utils.decorators import singleton
 from databases.screen_dbs.screen.image import Image
@@ -46,7 +46,6 @@ class FlaskMessageServer(FlaskServer, MessageServer):
             FlaskServer._SERVER.run(host=host, port=port)# ,ssl_context='adhoc')
         #reload(FlaskMessageServer)
         #self.login_manager.init_app(self._SERVER)
-
 
     @staticmethod
     @FlaskServer._SERVER.route("/fetch_messages/<board_id>/<security_details>")
@@ -152,8 +151,26 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @FlaskServer._SERVER.route("/manage_screen/<screen_id>")
     @login_required
     def manage_screen(screen_id:str):
+        # add check correct user
         image_ids = FlaskMessageServer.server_instace._screen_db.get_images_id(screen_id)
         return render_template("manage_screen.html", image_ids=[image_id for image_id in image_ids], board_id=screen_id)
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/current_screen_status/<screen_id>")
+    @login_required
+    def current_screen_status(screen_id:str):
+        image_ids = FlaskMessageServer.server_instace._screen_db.get_images_id(screen_id)
+        table_keys = Image.get_html_table_keys()
+        print(table_keys)
+        constructed_images = []
+        print(image_ids)
+        for image_id in image_ids:
+            print(Image.images_map[int(image_id)])
+            current_image_id_html = Image.images_map[int(image_id)].to_html_table_entry()
+            print(current_image_id_html)
+            constructed_images.append(Markup(current_image_id_html))
+        return render_template("current_screen_state.html", image_props=constructed_images, table_keys=Markup(table_keys),
+        board_id=screen_id)
 
     @staticmethod
     @FlaskServer._SERVER.route("/homepage")

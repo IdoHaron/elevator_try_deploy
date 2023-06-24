@@ -13,6 +13,7 @@ DateRange= Union[Tuple[DateTime, DateTime], str]
 
 class Image:
     images_map:Dict[int, Image] = {}
+
     def __init__(self, image_encoding:str, datetime_range:DateRange= None, image_time:int=2, img_id:Union[int,None]= None):
         ids = list(self.images_map.keys())
         if img_id is None:
@@ -70,3 +71,16 @@ class Image:
         if self.date_range is not None:
             dict_to_return["datetime_range"] = (self.date_range[0].__str__(), self.date_range[1].__str__())
         return dict_to_return
+
+    def to_html_table_entry(self):
+        image_as_dict = self.image_description()
+        html_string = "<tr>"
+        html_string += f"<td>{image_as_dict['image_properties']['image id']}</td>"
+        html_string += f"<td>{image_as_dict['image_properties']['image time']}</td>"
+        html_string+=f"<td><img src={image_as_dict['image_encoding']}></td>"
+        html_string+="</tr>"
+        return html_string
+
+    @staticmethod
+    def get_html_table_keys():
+        return "<tr><td>image id</td><td>presentation time</td><td>actual image</td></tr>"
