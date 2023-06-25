@@ -80,7 +80,6 @@ class Image:
         html_string+=f"<td><img src={image_as_dict['image_encoding']}></td>"
         html_string+="</tr>"
         return html_string
-
     @staticmethod
     def get_html_table_keys():
         return "<tr><td>image id</td><td>presentation time</td><td>actual image</td></tr>"

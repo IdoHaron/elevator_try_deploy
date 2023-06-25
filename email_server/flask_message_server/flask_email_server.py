@@ -161,13 +161,9 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     def current_screen_status(screen_id:str):
         image_ids = FlaskMessageServer.server_instace._screen_db.get_images_id(screen_id)
         table_keys = Image.get_html_table_keys()
-        print(table_keys)
         constructed_images = []
-        print(image_ids)
         for image_id in image_ids:
-            print(Image.images_map[int(image_id)])
             current_image_id_html = Image.images_map[int(image_id)].to_html_table_entry()
-            print(current_image_id_html)
             constructed_images.append(Markup(current_image_id_html))
         return render_template("current_screen_state.html", image_props=constructed_images, table_keys=Markup(table_keys),
         board_id=screen_id)
