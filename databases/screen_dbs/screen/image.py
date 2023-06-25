@@ -77,7 +77,7 @@ class Image:
         html_string = "<tr>"
         html_string += f"<td>{image_as_dict['image_properties']['image id']}</td>"
         html_string += f"<td>{image_as_dict['image_properties']['image time']}</td>"
-        html_string+=f"<td><img src={image_as_dict['image_encoding']}></td>"
+        html_string+=f"<td><img src={image_as_dict['image_encoding']} width=\"500\" height=\"600\"></td>"
         html_string+="</tr>"
         return html_string
     @staticmethod
