@@ -40,18 +40,27 @@
                     <option id="{{template}}" name="template_options">{{template}}</option>
                 {% endfor %}
             </select>
-            <input type="file" id="user_image" name="user_image" accept=".jpg, .jpeg, .png" onchange="UserFileUpload.on_file_upload(this)" class = "centerized">
             <br>
-            <div class="form_text">text to add:</div> <input type="text" id="text_on_image">
+            <div class="form_text">file input type: </div>
+            <select id="input_type" onchange="on_change_filetype(this)" class = "centerized">
+                <option id="image" name="image" selected="selected">image</option>
+                <option id="video" name="video">video</option>
+            </select>
             <br>
-            <div class="form_text"> image presentation time:</div>
+            <input type="file" id="user_image" name="user_image" accept="image/*" onchange="UserFileUpload.on_file_upload(this)" class = "centerized">
+            <br>
+            <input type="file" id="user_video" name="user_video" accept="video/*" onchange="UserFileUpload.on_file_upload(this)" class = "centerized">
+            <br>
+            <div class="form_text" id="description_text_on_image">text to add:</div> <input type="text" id="text_on_image">
+            <br>
+            <div class="form_text" id="description_timeslots"> image presentation time:</div>
             <select id="timeslots">
                 {% for time_option in range(1, 6) %}
                     <option value="{{time_option}}">{{time_option*5}}</option>
                 {%endfor%}
             </select>
             <br>
-            <div class="form_text">image with time limit: </div> <select id="is_image_time_limited" onchange="change_visability_of_time_element(this)">
+            <div class="form_text" id="description_is_image_time_limited">image with time limit: </div> <select id="is_image_time_limited" onchange="change_visability_of_time_element(this)">
                 <option value="yes">yes</option>
                 <option value="no" selected>no</option>
             </select>
@@ -59,7 +68,7 @@
             <!-- TODO(Ido): add support for years-->
             <input id="image_time_limitation" type="text" name="datetimes" value="01/01/2018 - 01/15/2018" />
             <br>
-            <button onclick="add_text_to_canvas(event)" class="form_button">add text</button>
+            <button onclick="add_text_to_canvas(event)" class="form_button" id="add_text_button">add text</button>
             <br class="br_size">
             <br>
             <button value="add_image_to_screen" onclick="sumbit_editied_image(event)" class="form_button">add image to screen</button>

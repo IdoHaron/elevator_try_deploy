@@ -4,6 +4,17 @@ const image_presentation = "timeslots"
 const time_range_selector = document.getElementById("is_image_time_limited");
 const canvas = new fabric.Canvas("edit_image_canvas");
 const time_choosing_element = document.getElementById("image_time_limitation");
+const video_uploader = document.getElementById("user_video");
+const image_uploader = document.getElementById("user_image");
+const select_input_type = document.getElementById("input_type");
+const text_to_add = document.getElementById("text_on_image");
+const description_text_to_add = document.getElementById("description_text_on_image");
+const is_image_time_limited = document.getElementById("is_image_time_limited");
+const description_is_image_time_limited = document.getElementById("description_is_image_time_limited");
+const timeslots = document.getElementById("timeslots");
+const description_timeslots = document.getElementById("description_timeslots");
+const add_text_button = document.getElementById("add_text_button");
+
 
 
 async function onload_body(){
@@ -80,6 +91,38 @@ async function on_change_template(element_pointer){
     our_canvas.upload_image_to_canvas(image_encoding);
 }
 
+async function on_change_filetype(){
+    const current_filetype = select_input_type.value;
+    console.log("current file type:"+current_filetype)
+    switch(current_filetype){
+        case "image":
+            console.log("image handler");
+            await hide_element(video_uploader);
+            await show_element(text_to_add);
+            await show_element(description_text_to_add);
+            await show_element(is_image_time_limited);
+            await show_element(description_is_image_time_limited);
+            await show_element(image_uploader);
+            await show_element(timeslots);
+            await show_element(description_timeslots);
+            await change_visability_of_time_element(time_range_selector);
+            await show_element(add_text_button);
+            break;
+        case "video":
+            await show_element(video_uploader);
+            await hide_element(image_uploader);
+            await hide_element(text_to_add);
+            await hide_element(description_text_to_add);
+            await hide_element(is_image_time_limited);
+            await hide_element(description_is_image_time_limited);
+            await hide_element(timeslots);
+            await hide_element(description_timeslots);
+            await hide_element(time_choosing_element);
+            await hide_element(add_text_button);
+            break;
+    }
+}
+
 
 function add_text_to_canvas(event){
     event.preventDefault();
@@ -102,6 +145,7 @@ pointer_to_canvas_outside_ref = new fabric.Canvas("edit_image_canvas", {
 canvas.renderAll();
 
 generate_canvas();
+on_change_filetype();
 
 function add_image_to_canvas(image_encoding, fabric_canvas, wanted_width, wanted_height){
     var img = new Image();
