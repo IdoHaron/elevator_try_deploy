@@ -4,6 +4,7 @@ class UserFileUpload{
     static async on_file_upload(pointer_to_file, type){
         switch(type){
             case "image":
+                console.log("present image");
                 // ImageUploadManagement.on_file_upload(pointer_to_file);
                 const file = pointer_to_file.files[0];
                 console.log(file);
@@ -15,6 +16,7 @@ class UserFileUpload{
                 };
                 break;
             case "video":
+                console.log("present video");
                 VideoUploadManagement.on_file_upload(pointer_to_file);
                 break;
                 

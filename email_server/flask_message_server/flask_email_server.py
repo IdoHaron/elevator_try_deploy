@@ -94,6 +94,19 @@ class FlaskMessageServer(FlaskServer, MessageServer):
                                templates=FlaskMessageServer.server_instace._template_db.get_all_templates()
                                )
 
+    @staticmethod
+    @FlaskServer._SERVER.route("/add_video_to_screen/<screen_id>")
+    def add_video_to_screen(screen_id):
+        # TODO(Ido): might be worth to unite with the post location
+        # TODO(Ido): read about serving with images, think about how to make the templates dynamic so other templates could be showed.
+        print(current_user)
+        if not FlaskMessageServer.server_instace.screen_of_user(current_user, screen_id):
+            return "404"
+        return render_template("add_video.html", screen_id=screen_id,
+                               templates=FlaskMessageServer.server_instace._template_db.get_all_templates()
+                               )
+
+
 
     @staticmethod
     @FlaskServer._SERVER.route("/new_image", methods=["POST"])

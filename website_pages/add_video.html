@@ -1,8 +1,38 @@
 <html>
-
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(function() {
+          $('input[name="datetimes"]').daterangepicker({
+            timePicker: true,
+            startDate: moment().startOf('hour'),
+            endDate: moment().startOf('hour').add(32, 'hour'),
+            locale: {
+              format: 'DD/M HH:mm Y'
+            }
+          });
+        });
+        </script>
+</head>
 <body>
-    <input type="file" id="user_image" name="user_image" accept="image/*" onchange="UserFileUpload.on_file_upload(this)" class = "centerized">
+    <input type="file" id="user_video" name="user_video" accept="video/*" onchange="UserFileUpload.on_file_upload(this, 'video')" class = "centerized">
     <br>
+    <input id="image_time_limitation" type="text" name="datetimes" value="01/01/2018 - 01/15/2018" class = "centerized" />
+    <br>
+    <button id="add_video_to_screen" value="add_video_to_screen" onclick="sumbit_video(event)" class="form_button">add video to screen</button>
+    <br class="br_size" class = "centerized">
+    <video id="video_element" controls class = "centerized">
+        <source src="/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
 </body>
+<script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+<script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>
+<script src="{{url_for('static', filename='format_message.js')}}"></script>
+<script src="{{url_for('static', filename='add_image_scripts/PresentFile.js')}}"></script>
 
 </html>

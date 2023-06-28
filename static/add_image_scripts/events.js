@@ -94,7 +94,7 @@ async function on_change_template(element_pointer){
     const image_encoding = NetworkUtils.request_from_route("template/"+current_template);
     our_canvas.upload_image_to_canvas(image_encoding);
 }
-
+/*
 async function on_change_filetype(){
     const current_filetype = select_input_type.value;
     console.log("current file type:"+current_filetype)
@@ -133,7 +133,7 @@ async function on_change_filetype(){
             await hide_element(add_text_button);
             break;
     }
-}
+}*/
 
 async function sumbit_video(event){
     ;
@@ -161,7 +161,6 @@ pointer_to_canvas_outside_ref = new fabric.Canvas("edit_image_canvas", {
 canvas.renderAll();
 
 generate_canvas();
-on_change_filetype();
 
 function add_image_to_canvas(image_encoding, fabric_canvas, wanted_width, wanted_height){
     var img = new Image();
