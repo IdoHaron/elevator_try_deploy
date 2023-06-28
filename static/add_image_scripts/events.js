@@ -14,6 +14,10 @@ const description_is_image_time_limited = document.getElementById("description_i
 const timeslots = document.getElementById("timeslots");
 const description_timeslots = document.getElementById("description_timeslots");
 const add_text_button = document.getElementById("add_text_button");
+const add_image_to_screen = document.getElementById("add_image_to_screen");
+const add_video_to_screen = document.getElementById("add_video_to_screen");
+const edit_image_canvas = document.getElementById("edit_image_canvas");
+const video_element = document.getElementById("video_element");
 
 
 
@@ -98,6 +102,9 @@ async function on_change_filetype(){
         case "image":
             console.log("image handler");
             await hide_element(video_uploader);
+            await hide_element(add_video_to_screen);
+            await hide_element(video_element);
+            await show_element(add_image_to_screen);
             await show_element(text_to_add);
             await show_element(description_text_to_add);
             await show_element(is_image_time_limited);
@@ -105,12 +112,17 @@ async function on_change_filetype(){
             await show_element(image_uploader);
             await show_element(timeslots);
             await show_element(description_timeslots);
+            await show_element(edit_image_canvas);
             await change_visability_of_time_element(time_range_selector);
             await show_element(add_text_button);
             break;
         case "video":
             await show_element(video_uploader);
+            await show_element(add_video_to_screen)
+            await show_element(video_element);
+            await hide_element(add_image_to_screen);
             await hide_element(image_uploader);
+            await hide_element(edit_image_canvas);
             await hide_element(text_to_add);
             await hide_element(description_text_to_add);
             await hide_element(is_image_time_limited);
@@ -121,6 +133,10 @@ async function on_change_filetype(){
             await hide_element(add_text_button);
             break;
     }
+}
+
+async function sumbit_video(event){
+    ;
 }
 
 

@@ -22,6 +22,20 @@ class ImageUploadManagement{
     }
 }
 
+class VideoUploadManagement{
+    static async on_file_upload(pointer_to_file){
+        const file = pointer_to_file.files[0];
+        const file_reader_instance = new FileReader();
+        file_reader_instance.readAsDataURL(file);
+        file_reader_instance.onload = function() {
+            video_element.src = file_reader_instance.result;
+            video_element.load();
+            video_element.play();
+        }
+    }
+}
+
+
 class ImgSrcManagement{
     static image_source_select_id = "template_or_user_image"
 
