@@ -36,7 +36,7 @@ class VideoUploadManagement{
 }
 
 
-class ImgSrcManagement{
+class ImgSrcManagement{98i
     static image_source_select_id = "template_or_user_image"
 
     static update_input_option(image_input_obj){

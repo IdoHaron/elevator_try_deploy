@@ -20,7 +20,29 @@ class UserFileUpload{
                 VideoUploadManagement.on_file_upload(pointer_to_file);
                 break;
                 
+        }
     }
+
+    static async submit(event, type, file_element_pointer, file_data, destination_board){
+        const file_pointer = document.getElementById(file_element_pointer);
+        switch(type){
+            case "image":
+                break;
+        
+            case "video":
+                const file = file_pointer.files[0];
+                const reader = new FileReader();
+                const file_content = reader.readAsDataURL(file);
+                reader.onload = ()=>{
+                    const full_req =Object.assign({}, file_data, {
+                        "destination":destination_board,
+                        "encoding": reader.result
+                    });
+                    console.log(full_req);
+                    NetworkUtils.request_from_route("add_video", "POST", JSON.stringify(full_req));
+                }
+                break;
+        }
     }
 }
 

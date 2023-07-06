@@ -27,28 +27,13 @@ async function onload_body(){
     ImgSrcManagement.update_input_option(image_input_selector);
     change_visability_of_time_element(time_range_selector);
 }
-function string_to_dict_datetime(string_to_conv){
-    console.log(string_to_conv);
-    const [date, time, year] = string_to_conv.split(" ")
-    const [day, month] = date.split("/")
-    const [hour, minute] = time.split(":");
-    const dict_t = {
-        "day": day,
-        "month": month,
-        "year": year,
-        "hour": hour,
-        "minute": minute
-    }
-    console.log(dict_t);
-    return dict_t;
-}
 async function sumbit_editied_image(event){
     event.preventDefault();
     console.log("submited!!");
     const canvas_to_hex = our_canvas.convert_to_hex();
 
     const chosen_board = document.getElementById(screen_id).innerText;
-    const form_path =document.getElementById(board_form).action;
+    const form_path = document.getElementById(board_form).action;
     const amount_of_time = document.getElementById(image_presentation).value;
     let image_date_range = time_choosing_element.value.split(" - ");
     image_date_range[0] = string_to_dict_datetime(image_date_range[0]);
@@ -135,9 +120,7 @@ async function on_change_filetype(){
     }
 }*/
 
-async function sumbit_video(event){
-    ;
-}
+
 
 
 function add_text_to_canvas(event){

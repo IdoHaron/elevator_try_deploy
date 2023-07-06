@@ -1,8 +1,9 @@
 class NetworkUtils{
     static xmlHttp = new XMLHttpRequest();
     static current_server_loc = window.location.origin;
-    static current_server_route = window.location.href
+    static current_server_route = window.location.href;
     static send_request(server_and_route, request_type, request_content){
+        console.log(server_and_route);
         NetworkUtils.xmlHttp.open(request_type, server_and_route, false);
         NetworkUtils.xmlHttp.send(request_content)
         return NetworkUtils.xmlHttp.responseText
@@ -18,6 +19,7 @@ class NetworkUtils{
         content = JSON.stringify(content);
         console.log(content);
         const wanted_route = NetworkUtils.current_server_loc + "/" + route
+        console.log(wanted_route);
         return NetworkUtils.send_request(wanted_route, request_type, content);
     }
 

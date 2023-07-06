@@ -3,6 +3,8 @@ import dataclasses
 from databases.screen_dbs.screen.image import Image
 from typing import Dict, List
 from databases.screen_dbs.screen.current_image_manager import CurrentScreenManager
+from databases.screen_dbs.screen.basic_input_type import BasicInputType
+from databases.screen_dbs.screen.video import Video
 class Screen:
     @dataclasses.dataclass
     class __ImageIndex:
@@ -11,36 +13,41 @@ class Screen:
 
     def __init__(self, images_to_present:List[dict]):
         self.images:Dict[int, Image] = {}
-        for image in images_to_present:
-            new_img = Image(**image)
-            self.images[new_img.id] = new_img
-
+        self.videos:Dict[int, Video] = {}
+        self.all_obj:Dict[int, BasicInputType] = {}
+        for generic_video_img in images_to_present:
+            new_obj, _type = BasicInputType.factory_function(generic_video_img)
+            if _type=="Image":
+                self.images[new_obj.id] = new_obj
+            if _type=="Video":
+                self.videos[new_obj.id]= new_obj
+            self.all_obj[new_obj.id] = new_obj
         self.__current_index = Screen.__ImageIndex(0, 0)
         CurrentScreenManager.add_screen(self)
 
     @property
     def current_index(self)->int:
-        self.__current_index.image_index = self.__current_index.image_index % len(self.images)
+        self.__current_index.image_index = self.__current_index.image_index % len(self.all_obj)
         return self.__current_index.image_index
 
-    def __current_image(self):
-        return list(self.images.values())[self.current_index]
+    def __current_obj(self):
+        return list(self.all_obj.values())[self.current_index]
 
     def current_image_encoding(self):
         """
         visual current image
         :return:
         """
-        return self.__current_image().encoding
+        return self.__current_obj().encoding
 
-    def remove_image(self, image_id:int):
+    def remove_object(self, object_id:int):
         try:
-            image_id = int(image_id)
-            self.images.pop(image_id)
+            object_id = int(object_id)
+            self.all_obj.pop(object_id)
         except:
-            print(f"{self.images.keys()}  {image_id}")
-            self.images[image_id] = None
-            print(f"{self.images.keys()}  {image_id}")
+            print(f"{self.all_obj.keys()}  {object_id}")
+            self.all_obj[object_id] = None
+            print(f"{self.all_obj.keys()}  {object_id}")
 
 
     def add_image(self, image:Image):
@@ -52,18 +59,18 @@ class Screen:
 
     def itterate(self):
         self.__inc()
-        if self.__current_image().image_expired():
-            current_image_id = self.__current_image().id
-            self.remove_image(current_image_id)
+        if self.__current_obj().presentation_time_expried():
+            current_image_id = self.__current_obj().id
+            self.remove_object(current_image_id)
         self.__current_index.image_index = self.__current_index.image_index % len(self.images)
-        if not self.__current_image().image_premature():
+        if not self.__current_obj().presentation_time_expried():
             return
         self.__current_index.image_index += 1
         self.__current_index.image_index = self.__current_index.image_index % len(self.images)
         self.__current_index.in_image_itter_index = 0
 
     def __inc(self):
-        current_image = self.__current_image()
+        current_image = self.__current_obj()
 
         if current_image is not None and self.__current_index.in_image_itter_index + 1 < current_image.image_time:
             self.__current_index.in_image_itter_index += 1
@@ -75,8 +82,8 @@ class Screen:
 
     def __dict__(self):
         result = []
-        for i in self.images.values():
-            if not i.image_expired():
+        for i in self.all_obj.values():
+            if not i.presentation_time_expried():
                 result.append(i.__dict__())
         return result
 

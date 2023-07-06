@@ -1,9 +1,11 @@
 <html>
 <head>
+    <data id="screen_id" hidden>{{screen_id}}</data>
     <link rel="stylesheet" href="{{url_for('static', filename='designs/designs.css')}}">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="{{url_for('static', filename='utils/TimeElementUtils.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script>
         $(function() {
@@ -16,19 +18,45 @@
             }
           });
         });
+
+        async function get_board(){
+          return await document.getElementById("screen_id").innerHTML;
+        }
+
+        async function get_video_metadata(){
+          const time_choosing_element = document.getElementById("image_time_limitation");
+          const video = document.getElementById("video_element");
+          let image_date_range = time_choosing_element.value.split(" - ");
+          image_date_range[0] = string_to_dict_datetime(image_date_range[0]);
+          image_date_range[1] = string_to_dict_datetime(image_date_range[1]);
+          console.log(`video duration: ${video.duration}`)
+          return {
+            "datetime_range": image_date_range,
+            "video_time": video.duration
+          };
+        }
+        async function onclick_add_video() {
+          const video_metadata = await get_video_metadata();
+          const board = await get_board();
+          console.log('click add_video_to_screen');
+          await UserFileUpload.submit(this, 'video', 'user_video', video_metadata, board);
+          alert("video added to screen");
+      }
         </script>
 </head>
-<body>
+<body class="centerized">
     <input type="file" id="user_video" name="user_video" accept="video/*" onchange="UserFileUpload.on_file_upload(this, 'video')" class = "centerized">
     <br>
     <input id="image_time_limitation" type="text" name="datetimes" value="01/01/2018 - 01/15/2018" class = "centerized" />
     <br>
-    <button id="add_video_to_screen" value="add_video_to_screen" onclick="sumbit_video(event)" class="form_button">add video to screen</button>
+    <button id="add_video_to_screen" value="add_video_to_screen" onclick="onclick_add_video()" class="form_button">add video to screen</button>
     <br class="br_size" class = "centerized">
     <video id="video_element" controls class = "centerized">
         <source src="/video.mp4" type="video/mp4">
         Your browser does not support the video tag.
+
       </video>
+      <!---UserFileUpload.submit(this, 'video', 'user_video', await get_video_metadata(), await get_board())-->
 </body>
 <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
 <script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>

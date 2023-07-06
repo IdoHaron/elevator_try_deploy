@@ -1,4 +1,3 @@
-from __future__ import annotations
 
 from databases.screen_dbs.screen.__consts import default_time_window
 from typing import Tuple, Union
@@ -6,38 +5,17 @@ from datetime import datetime
 from random import choice
 from utils import RandomUtils
 from utils.data_types import DateTime
-from utils import DateTimeUtils
 from typing import Dict
+from databases.screen_dbs.screen.basic_input_type import BasicInputType
 
 DateRange= Union[Tuple[DateTime, DateTime], str]
 
-class Image:
-    images_map:Dict[int, Image] = {}
-
-    def __init__(self, image_encoding:str, datetime_range:DateRange= None, image_time:int=2, img_id:Union[int,None]= None):
-        ids = list(self.images_map.keys())
-        if img_id is None:
-            if len(ids)==0:
-                img_id=0
-            elif max(ids)-min(ids) >= len(ids)-1:
-                img_id = max(ids) + 1
-            else:
-                img_id = RandomUtils.choose_number_not_in_list(min(ids)+1, max(ids), ids)
+class Image(BasicInputType):
+    def __init__(self, encoding:str, datetime_range:DateRange= None, image_time:int=2, obj_id:Union[int,None]= None):
             # id = # to generate
-        self.id = int(img_id)
-        self.images_map[self.id] = self
-        self.encoding = image_encoding
-        self.date_range = None
-        if datetime_range is not None:
-            if datetime_range is str:
-                datetime_range = datetime_range.split("-")
-            self.date_range = (DateTimeUtils.construct_datetime(datetime_range[0]), DateTimeUtils.construct_datetime(datetime_range[1]))
+        super().__init__(encoding=encoding, datetime_range=datetime_range,obj_id=obj_id)
         self.image_time = int(image_time)
 
-    def image_expired(self):
-        if self.date_range is None:
-            return False
-        return datetime.now() > self.date_range[1]
 
     def image_premature(self):
         if self.date_range is None:
@@ -45,41 +23,30 @@ class Image:
         return datetime.now() < self.date_range[0]
 
     def in_range(self):
-        return not(self.image_expired() and self.date_range[0]<datetime.now())
+        return not(self.presentation_time_expried() and self.date_range[0]<datetime.now())
 
 
     def __dict__(self):
-        dict_to_return =  {
-            "image_properties":{
-                "img_id": self.id,
-                "image_time": self.image_time
-            },
-            "image_encoding": self.encoding
-        }
-        if self.date_range is not None:
-            dict_to_return["datetime_range"] = (self.date_range[0].__str__(), self.date_range[1].__str__())
+        dict_to_return =  super().__dict__()
+        dict_to_return["image_time"] = self.image_time
+        dict_to_return["class"] = self.__class__.__name__
         return dict_to_return
 
-    def image_description(self):
-        dict_to_return =  {
-            "image_properties":{
-                "image id": self.id,
-                "image time": str(self.image_time*default_time_window) + " seconds"
-            },
-            "image_encoding": self.encoding
-        }
-        if self.date_range is not None:
-            dict_to_return["datetime_range"] = (self.date_range[0].__str__(), self.date_range[1].__str__())
-        return dict_to_return
+    def description(self):
+        basic_description = super().description()
+        basic_description["properties"]["image time"]= str(self.image_time*default_time_window) + " seconds"
+        return basic_description
 
     def to_html_table_entry(self):
-        image_as_dict = self.image_description()
-        html_string = "<tr>"
-        html_string += f"<td>{image_as_dict['image_properties']['image id']}</td>"
-        html_string += f"<td>{image_as_dict['image_properties']['image time']}</td>"
-        html_string+=f"<td><img src={image_as_dict['image_encoding']} width=\"500\" height=\"600\"></td>"
+        html_string, image_as_dict = super().to_html_table_entry()
+        html_string += f"<td>{image_as_dict['properties']['image time']}</td>"
+        html_string+=f"<td><img src={image_as_dict['encoding']} width=\"500\" height=\"600\"></td>"
         html_string+="</tr>"
         return html_string
     @staticmethod
     def get_html_table_keys():
-        return "<tr><td>image id</td><td>presentation time</td><td>actual image</td></tr>"
+        return "<tr><td>id</td><td>presentation time / video time</td><td>video/image</td></tr>"
+
+Image.inheriting_class[Image.__name__] = Image
+
+print(Image.__name__)

@@ -18,6 +18,7 @@ from databases.elevator_board.elevator_boards_table import ElevatorBoardsTable
 from server.utils import string_to_select_entry, start_select_entry, end_select_entry
 from databases.template.templates_db import TemplatesDB
 from databases.screen_dbs.screen.image import Image
+from databases.screen_dbs.screen.video import Video
 from base64 import b64encode
 from databases.screen_dbs.screen_db import ScreenDB
 
@@ -84,15 +85,25 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     
     @staticmethod
     @FlaskServer._SERVER.route("/add_image_to_screen/<screen_id>")
-    def message_form_window(screen_id):
+    def add_image_to_screen(screen_id):
         #TODO(Ido): might be worth to unite with the post location
         #TODO(Ido): read about serving with images, think about how to make the templates dynamic so other templates could be showed.
         print(current_user)
         if not FlaskMessageServer.server_instace.screen_of_user(current_user, screen_id):
             return "404"
-        return render_template("message_form.html", screen_id=screen_id,
+        return render_template("add_image.html", screen_id=screen_id,
                                templates=FlaskMessageServer.server_instace._template_db.get_all_templates()
                                )
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/add_video", methods=["POST"])
+    @login_required
+    def new_video():
+        data = loads(request.data.decode("ASCII"))
+        data = loads(data)
+        FlaskMessageServer.server_instace._screen_db.add_image_to_screen(data["destination"], Video(**data))
+        return ""
+
 
     @staticmethod
     @FlaskServer._SERVER.route("/add_video_to_screen/<screen_id>")
@@ -158,7 +169,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @staticmethod
     @FlaskServer._SERVER.route("/image/<image_id>")
     def get_image(image_id:str):
-        return json.dumps(Image.images_map[int(image_id)].image_description())
+        return json.dumps(Image.obj_map[int(image_id)].description())
 
     @staticmethod
     @FlaskServer._SERVER.route("/manage_screen/<screen_id>")
@@ -176,7 +187,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         table_keys = Image.get_html_table_keys()
         constructed_images = []
         for image_id in image_ids:
-            current_image_id_html = Image.images_map[int(image_id)].to_html_table_entry()
+            current_image_id_html = Image.obj_map[int(image_id)].to_html_table_entry()
             constructed_images.append(Markup(current_image_id_html))
         return render_template("current_screen_state.html", image_props=constructed_images, table_keys=Markup(table_keys),
         board_id=screen_id)
