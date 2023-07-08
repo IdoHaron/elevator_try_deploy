@@ -1,4 +1,3 @@
-import dataclasses
 
 from databases.screen_dbs.screen.image import Image
 from typing import Dict, List
@@ -6,10 +5,6 @@ from databases.screen_dbs.screen.current_image_manager import CurrentScreenManag
 from databases.screen_dbs.screen.basic_input_type import BasicInputType
 from databases.screen_dbs.screen.video import Video
 class Screen:
-    @dataclasses.dataclass
-    class __ImageIndex:
-        image_index:int
-        in_image_itter_index:int
 
     def __init__(self, images_to_present:List[dict]):
         self.images:Dict[int, Image] = {}
@@ -22,16 +17,12 @@ class Screen:
             if _type=="Video":
                 self.videos[new_obj.id]= new_obj
             self.all_obj[new_obj.id] = new_obj
-        self.__current_index = Screen.__ImageIndex(0, 0)
+        self.__current_index = 0
         CurrentScreenManager.add_screen(self)
 
-    @property
-    def current_index(self)->int:
-        self.__current_index.image_index = self.__current_index.image_index % len(self.all_obj)
-        return self.__current_index.image_index
 
     def __current_obj(self):
-        return list(self.all_obj.values())[self.current_index]
+        return list(self.all_obj.values())[self.__current_index]
 
     def current_image_encoding(self):
         """
@@ -54,36 +45,18 @@ class Screen:
         self.images[image.id] = image
 
     def clear_images(self):
-        self.__current_index = Screen.__ImageIndex(0, 0)
+        self.__current_index = 0
         self.images = {}
 
-    def itterate(self):
-        self.__inc()
-        if self.__current_obj().presentation_time_expried():
-            current_image_id = self.__current_obj().id
-            self.remove_object(current_image_id)
-        self.__current_index.image_index = self.__current_index.image_index % len(self.images)
-        if not self.__current_obj().presentation_time_expried():
-            return
-        self.__current_index.image_index += 1
-        self.__current_index.image_index = self.__current_index.image_index % len(self.images)
-        self.__current_index.in_image_itter_index = 0
-
-    def __inc(self):
-        current_image = self.__current_obj()
-
-        if current_image is not None and self.__current_index.in_image_itter_index + 1 < current_image.image_time:
-            self.__current_index.in_image_itter_index += 1
-            return
-        self.__current_index.image_index += 1
-        self.__current_index.image_index = self.__current_index.image_index % len(self.images)
-        self.__current_index.in_image_itter_index = 0
-
+    def tick(self):
+        if self.__current_obj().tick():
+            self.__current_index += 1
+            self.__current_index = self.__current_index % len(self.images)
 
     def __dict__(self):
         result = []
         for i in self.all_obj.values():
-            if not i.presentation_time_expried():
+            if not i.presentation_time_expired():
                 result.append(i.__dict__())
         return result
 

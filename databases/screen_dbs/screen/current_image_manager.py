@@ -14,7 +14,7 @@ class CurrentScreenManager(ABC):
     @staticmethod
     def __itterate():
         for screen in CurrentScreenManager.current_screens:
-            screen.itterate()
+            screen.tick()
 
     @staticmethod
     def timer_function():

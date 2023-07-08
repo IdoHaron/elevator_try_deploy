@@ -36,7 +36,7 @@ class VideoUploadManagement{
 }
 
 
-class ImgSrcManagement{98i
+class ImgSrcManagement{
     static image_source_select_id = "template_or_user_image"
 
     static update_input_option(image_input_obj){
@@ -87,4 +87,4 @@ async function onload(){
     ImgSrcManagement.update_input_option(image_input_obj);
 }
 
-async function sumbit_editied_image(){};
+// async function sumbit_editied_image(){};

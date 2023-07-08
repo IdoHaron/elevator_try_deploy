@@ -152,10 +152,11 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         if  FlaskMessageServer.server_instace._screen_db.legal_screen_id(elevator_id):
             return FlaskMessageServer.server_instace._screen_db.get_image(elevator_id)
         return "sorry, page not found"
+
     @staticmethod
     @FlaskServer._SERVER.route("/route_to_ping")
     def check_connection():
-        return True
+        return "True"
 
     @staticmethod
     @FlaskServer._SERVER.route("/remove_image", methods=["POST"])

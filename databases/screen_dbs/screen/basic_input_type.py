@@ -6,11 +6,12 @@ from utils import DateTimeUtils
 from datetime import datetime
 
 class BasicInputType(ABC):
+    __NOT_PRESENTING_OBJ = -1
     obj_map: Dict[int, BasicInputType] = {}
     inheriting_class = {
     }
 
-    def __init__(self,encoding,datetime_range=None, obj_id=None):
+    def __init__(self,encoding, presentation_time:int,datetime_range=None, obj_id=None):
         ids = list(self.obj_map.keys())
         if obj_id is None:
             if len(ids)==0:
@@ -19,9 +20,11 @@ class BasicInputType(ABC):
                 obj_id = max(ids) + 1
             else:
                 obj_id = RandomUtils.choose_number_not_in_list(min(ids)+1, max(ids), ids)
+        self.__presentation_time = presentation_time
         self.id = int(obj_id)
         self.obj_map[self.id] = self
         self.encoding = encoding
+        self.time_presented=self.__NOT_PRESENTING_OBJ
         self.date_range = None
         if datetime_range is not None:
             if datetime_range is str:
@@ -48,10 +51,18 @@ class BasicInputType(ABC):
         return html_string, image_as_dict
 
 
-    def presentation_time_expried(self):
+    def presentation_time_expired(self):
         if self.date_range is None:
             return False
         return datetime.now() > self.date_range[1]
+
+    def presentation_time_not_started(self):
+        if self.date_range is None:
+            return False
+        return datetime.now() < self.date_range[0]
+
+    def in_presentation_time_window(self):
+        return not (self.presentation_time_not_started() or self.presentation_time_expired())
 
 
     @staticmethod
@@ -66,8 +77,26 @@ class BasicInputType(ABC):
     def __dict__(self):
         dict_to_return=  {
             "obj_id": self.id,
-            "encoding": self.encoding
+            "encoding": self.encoding,
+            "presentation_time": self.__presentation_time
         }
         if self.date_range is not None:
             dict_to_return["datetime_range"] = (self.date_range[0].__str__(), self.date_range[1].__str__())
         return dict_to_return
+
+    def tick(self)->bool:
+        """
+        this function responds to one unit of time passing
+        :returns: is finished presenting
+        """
+        if not self.in_presentation_time_window():
+            return True
+        if self.time_presented == self.__NOT_PRESENTING_OBJ:
+            # stating to present
+            self.time_presented = 0
+        if self.time_presented >= self.__presentation_time:
+            # finished to present
+            self.time_presented = self.__NOT_PRESENTING_OBJ
+            return True
+        self.time_presented +=1
+        return False

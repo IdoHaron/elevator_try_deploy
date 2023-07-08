@@ -11,10 +11,10 @@ from databases.screen_dbs.screen.basic_input_type import BasicInputType
 DateRange= Union[Tuple[DateTime, DateTime], str]
 
 class Image(BasicInputType):
-    def __init__(self, encoding:str, datetime_range:DateRange= None, image_time:int=2, obj_id:Union[int,None]= None):
+    def __init__(self, encoding:str, datetime_range:DateRange= None, presentation_time:int=2, obj_id:Union[int,None]= None):
             # id = # to generate
-        super().__init__(encoding=encoding, datetime_range=datetime_range,obj_id=obj_id)
-        self.image_time = int(image_time)
+        super().__init__(encoding=encoding, presentation_time= presentation_time, datetime_range=datetime_range, obj_id=obj_id)
+        self.image_time = int(presentation_time)
 
 
     def image_premature(self):
@@ -23,12 +23,11 @@ class Image(BasicInputType):
         return datetime.now() < self.date_range[0]
 
     def in_range(self):
-        return not(self.presentation_time_expried() and self.date_range[0]<datetime.now())
+        return not(self.presentation_time_expired() and self.date_range[0] < datetime.now())
 
 
     def __dict__(self):
         dict_to_return =  super().__dict__()
-        dict_to_return["image_time"] = self.image_time
         dict_to_return["class"] = self.__class__.__name__
         return dict_to_return
 
