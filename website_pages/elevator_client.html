@@ -32,8 +32,10 @@
         </style>
         <data hidden id="data_id">{{screen_id}}</data>
     </head>
-    <body style="height:100vh">
-        <img class="center-fit imgbox" id="shown_image" src="{{current_img}}">
+    <body style="height:100vh;width:100vw">
+        {{obj_information}}
+
+        </video>
         <script src="{{url_for('static', filename='TimedEvents.js')}}"></script>
         <script src="{{url_for('static', filename='elevator_client.js')}}"></script>
         

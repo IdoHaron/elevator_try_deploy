@@ -2,7 +2,7 @@ from abc import abstractmethod
 from exceptions.database_error.exceptions import ValueNotFound
 from databases.screen_dbs.screen.Screen import Screen
 from typing import Dict, List
-from databases.screen_dbs.screen.image import Image
+from databases.screen_dbs.screen.basic_input_type import BasicInputType
 
 class ScreenDB:
     modified_screens:set = set()
@@ -20,7 +20,15 @@ class ScreenDB:
             raise ValueNotFound
         if screen_id in self.modified_screens:
             self.modified_screens.remove(screen_id)
-        return self._current_db_state[screen_id].current_image_encoding()
+        return self._current_db_state[screen_id].current_obj_encoding()
+
+
+    def get_encoding_as_html(self, screen_id:str):
+        if not self.legal_screen_id(screen_id):
+            raise ValueNotFound
+        if screen_id in self.modified_screens:
+            self.modified_screens.remove(screen_id)
+        return self._current_db_state[screen_id].current_obj_as_html()
 
     def get_images_id(self, screen_id:str)->List[int]:
         return list(self._current_db_state[screen_id].images.keys())
@@ -36,7 +44,7 @@ class ScreenDB:
     def _modified_screen(self, screen_id:str):
         self.modified_screens.add(screen_id)
     @abstractmethod
-    def add_image_to_screen(self, screen_id:str, image:Image):
+    def add_obj_to_screen(self, screen_id:str, image:BasicInputType):
         raise NotImplementedError
 
     def __dict__(self):

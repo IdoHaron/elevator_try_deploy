@@ -46,6 +46,9 @@ class Image(BasicInputType):
     def get_html_table_keys():
         return "<tr><td>id</td><td>presentation time / video time</td><td>video/image</td></tr>"
 
+    def as_full_screen_html(self):
+        return f"<img src={self.encoding} style=\"height:100%;width:100%\">"
+
 Image.inheriting_class[Image.__name__] = Image
 
 print(Image.__name__)

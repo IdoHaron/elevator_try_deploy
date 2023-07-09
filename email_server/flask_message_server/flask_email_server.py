@@ -101,7 +101,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     def new_video():
         data = loads(request.data.decode("ASCII"))
         data = loads(data)
-        FlaskMessageServer.server_instace._screen_db.add_image_to_screen(data["destination"], Video(**data))
+        FlaskMessageServer.server_instace._screen_db.add_obj_to_screen(data["destination"], Video(**data))
         return ""
 
 
@@ -125,7 +125,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     def new_image():
         data = loads(request.data.decode("ASCII"))
         image_data = json.loads(data["image"])
-        FlaskMessageServer.server_instace._screen_db.add_image_to_screen(data["destination"], Image(**image_data))
+        FlaskMessageServer.server_instace._screen_db.add_obj_to_screen(data["destination"], Image(**image_data))
         return ""
         # board_name, image_in_code = request.form["board_name"], request.form["image"]
 
@@ -141,10 +141,10 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @staticmethod
     @FlaskServer._SERVER.route("/elevator/<elevator_id>")
     def html_page_image_for_elevator(elevator_id:str):
-        if  FlaskMessageServer.server_instace._screen_db.legal_screen_id(elevator_id):
-            return render_template("elevator_client.html", screen_id=elevator_id,
-                                   current_img=FlaskMessageServer.server_instace._screen_db.get_image(elevator_id))
-        return "sorry, page not found"
+        if  not FlaskMessageServer.server_instace._screen_db.legal_screen_id(elevator_id):
+            return "sorry, page not found"
+        obj_as_html = Markup(FlaskMessageServer.server_instace._screen_db.get_encoding_as_html(elevator_id))
+        return render_template("elevator_client.html", screen_id=elevator_id, obj_information = obj_as_html)
 
     @staticmethod
     @FlaskServer._SERVER.route("/image/elevator/<elevator_id>")

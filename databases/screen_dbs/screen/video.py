@@ -41,4 +41,13 @@ class Video(BasicInputType):
         dict_to_return["class"] = self.__class__.__name__
         return dict_to_return
 
+    def as_full_screen_html(self):
+        return f"<video id=\"v_id_{self.id}\" src={self.encoding} style=\"height:100%;width:100%\">" \
+                     f"<source src=\"/{self.encoding}\" type=\"video/mp4\"> Your browser does not support the video tag." \
+                     f"</video></td>" \
+                     f"<script>" \
+                     f"\nconst video_element = document.getElementById('v_id_{self.id}');\n" \
+                     f"video_element.load();\n video_element.play();\n" \
+                     f"</script>"
+
 Video.inheriting_class[Video.__name__] = Video

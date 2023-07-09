@@ -6,7 +6,7 @@ from utils.decorators import singleton
 from json import load
 from databases.json_db import JsonDB
 from databases.screen_dbs.screen.Screen import Screen
-from databases.screen_dbs.screen.image import Image
+from databases.screen_dbs.screen.basic_input_type import BasicInputType
 
 @singleton
 class ScreenJsonDB(ScreenDB,JsonDB):
@@ -21,10 +21,10 @@ class ScreenJsonDB(ScreenDB,JsonDB):
             database_state[screen] = Screen(x[screen])
         return database_state
 
-    def add_image_to_screen(self, screen_id, image:Image):
+    def add_obj_to_screen(self, screen_id, obj:BasicInputType):
         # need to verify screen exists.
         self._modified_screen(screen_id)
-        self._current_db_state[screen_id].add_image(image)
+        self._current_db_state[screen_id].add_obj(obj)
         self._save_db()
 
     def __dict__(self):

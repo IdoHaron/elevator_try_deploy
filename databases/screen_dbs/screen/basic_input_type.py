@@ -100,3 +100,7 @@ class BasicInputType(ABC):
             return True
         self.time_presented +=1
         return False
+
+    @abstractmethod
+    def as_full_screen_html(self):
+        pass
