@@ -4,11 +4,13 @@ from databases.screen_dbs.screen.basic_input_type import BasicInputType
 from databases.screen_dbs.screen.__consts import default_time_window
 from math import ceil
 class Video(BasicInputType):
-    def __init__(self, encoding, datetime_range, video_duration=None, presentation_time=None, destination=None, obj_id=None):
+    def __init__(self, encoding, datetime_range=None, video_duration=None, presentation_time=None, destination=None, obj_id=None):
         if video_duration is None:
+            # if presentation time is supplied
             presentation_time = presentation_time
         else:
-            presentation_time = int(ceil(float(presentation_time)) / default_time_window)
+            # if presentation time is not supplied
+            presentation_time = int(ceil(float(video_duration)) / default_time_window)
         if presentation_time is None:
             raise InsufficientInformation
         _datetime_range = None
@@ -37,10 +39,10 @@ class Video(BasicInputType):
 
     def __dict__(self):
         dict_to_return = super().__dict__()
-        dict_to_return["video_time"] = self.video_time
         dict_to_return["class"] = self.__class__.__name__
         return dict_to_return
 
+# can use hook for video end
     def as_full_screen_html(self):
         return f"<video id=\"v_id_{self.id}\" src={self.encoding} style=\"height:100%;width:100%\">" \
                      f"<source src=\"/{self.encoding}\" type=\"video/mp4\"> Your browser does not support the video tag." \
@@ -48,6 +50,9 @@ class Video(BasicInputType):
                      f"<script>" \
                      f"\nconst video_element = document.getElementById('v_id_{self.id}');\n" \
                      f"video_element.load();\n video_element.play();\n" \
+                     f"timeout_fetch={(self._presentation_time+1)*default_time_window*1000}\n" \
+                     "console.log(`timeout fetch: ${timeout_fetch}`);\n" \
+                     f"setInterval(page_reload, timeout_fetch);\n"\
                      f"</script>"
 
 Video.inheriting_class[Video.__name__] = Video

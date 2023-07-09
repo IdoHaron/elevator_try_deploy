@@ -65,11 +65,12 @@ class Screen:
             self.__current_index = 0
             return
         self.__current_index = self.__current_index % len(self.all_obj.keys())
+        print(self.__current_index)
 
     def __dict__(self):
         result = []
         for i in self.all_obj.values():
-            if not i.presentation_time_expired():
+            if i.in_presentation_time_window():
                 result.append(i.__dict__())
         return result
 

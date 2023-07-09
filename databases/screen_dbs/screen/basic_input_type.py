@@ -20,7 +20,7 @@ class BasicInputType(ABC):
                 obj_id = max(ids) + 1
             else:
                 obj_id = RandomUtils.choose_number_not_in_list(min(ids)+1, max(ids), ids)
-        self.__presentation_time = presentation_time
+        self._presentation_time = presentation_time
         self.id = int(obj_id)
         self.obj_map[self.id] = self
         self.encoding = encoding
@@ -78,7 +78,7 @@ class BasicInputType(ABC):
         dict_to_return=  {
             "obj_id": self.id,
             "encoding": self.encoding,
-            "presentation_time": self.__presentation_time
+            "presentation_time": self._presentation_time
         }
         if self.date_range is not None:
             dict_to_return["datetime_range"] = (self.date_range[0].__str__(), self.date_range[1].__str__())
@@ -89,12 +89,13 @@ class BasicInputType(ABC):
         this function responds to one unit of time passing
         :returns: is finished presenting
         """
+        print(self.time_presented)
         if not self.in_presentation_time_window():
             return True
         if self.time_presented == self.__NOT_PRESENTING_OBJ:
             # stating to present
             self.time_presented = 0
-        if self.time_presented >= self.__presentation_time:
+        if self.time_presented >= self._presentation_time:
             # finished to present
             self.time_presented = self.__NOT_PRESENTING_OBJ
             return True

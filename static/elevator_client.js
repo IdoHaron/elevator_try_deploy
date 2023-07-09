@@ -1,6 +1,6 @@
 import { NetworkUtils } from "./NetworkUtils"
 import {RecurringEvent} from "./TimedEvents"
-timeout_fetch = 10000
+let timeout_fetch = 10000;
 class ManageImages{
     static #images_route = "/img/"
     static #image_field_id = "shown_image"
@@ -20,4 +20,4 @@ class ManageImages{
 function always_false(){
     return false;
 }
-RecurringEvent(ManageImages.update_obj, timeout_fetch, always_false, -1);
+// RecurringEvent(ManageImages.update_obj, timeout_fetch, always_false, -1);

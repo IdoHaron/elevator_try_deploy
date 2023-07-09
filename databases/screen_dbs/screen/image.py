@@ -47,7 +47,9 @@ class Image(BasicInputType):
         return "<tr><td>id</td><td>presentation time / video time</td><td>video/image</td></tr>"
 
     def as_full_screen_html(self):
-        return f"<img src={self.encoding} style=\"height:100%;width:100%\">"
+        return f"<img src={self.encoding} style=\"height:100%;width:100%\"> <script>timeout_fetch={default_time_window*1000};\n" \
+               f"setInterval(page_reload, timeout_fetch);\n" \
+               f"</script>"
 
 Image.inheriting_class[Image.__name__] = Image
 
