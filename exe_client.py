@@ -58,7 +58,6 @@ class ManageImage:
 
 def update_image():
     ManageImage.fetch_image()
-    print(1)
     if not ManageImage.need_update:
         return
     image = Image.open(ManageImage.image_data)

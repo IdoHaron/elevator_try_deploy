@@ -89,7 +89,6 @@ class BasicInputType(ABC):
         this function responds to one unit of time passing
         :returns: is finished presenting
         """
-        print(self.time_presented)
         if not self.in_presentation_time_window():
             return True
         if self.time_presented == self.__NOT_PRESENTING_OBJ:

@@ -30,8 +30,8 @@ class ScreenDB:
             self.modified_screens.remove(screen_id)
         return self._current_db_state[screen_id].current_obj_as_html()
 
-    def get_images_id(self, screen_id:str)->List[int]:
-        return list(self._current_db_state[screen_id].images.keys())
+    def get_all_obj_id(self, screen_id:str)->List[int]:
+        return list(self._current_db_state[screen_id].all_obj.keys())
 
     def did_image_modify(self, screen_id:str):
         """

@@ -54,7 +54,6 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         #TODO(ido): move security details from 
         if not FlaskMessageServer.server_instace._security_module.fetch_and_verify_user(board_id, security_details):
             return ''
-        print("here")
         return FlaskMessageServer.server_instace._message_manager.get_new_messages(board_id)
 
     @staticmethod
@@ -177,19 +176,20 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @login_required
     def manage_screen(screen_id:str):
         # add check correct user
-        image_ids = FlaskMessageServer.server_instace._screen_db.get_images_id(screen_id)
+        image_ids = FlaskMessageServer.server_instace._screen_db.get_all_obj_id(screen_id)
         return render_template("manage_screen.html", image_ids=[image_id for image_id in image_ids], board_id=screen_id)
 
     @staticmethod
     @FlaskServer._SERVER.route("/current_screen_status/<screen_id>")
     @login_required
     def current_screen_status(screen_id:str):
-        image_ids = FlaskMessageServer.server_instace._screen_db.get_images_id(screen_id)
+        image_ids = FlaskMessageServer.server_instace._screen_db.get_all_obj_id(screen_id)
         table_keys = Image.get_html_table_keys()
         constructed_images = []
         for image_id in image_ids:
             current_image_id_html = Image.obj_map[int(image_id)].to_html_table_entry()
             constructed_images.append(Markup(current_image_id_html))
+        print(image_ids)
         return render_template("current_screen_state.html", image_props=constructed_images, table_keys=Markup(table_keys),
         board_id=screen_id)
 
@@ -204,7 +204,6 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         for board in boards:
             constructed__boards_string += string_to_select_entry(board.board_name)
         constructed__boards_string += end_select_entry()
-        print(constructed__boards_string)
         return render_template("homepage.html", boards=[board.board_name for board in boards])
 
     def screen_of_user(self, current_user, screen):
