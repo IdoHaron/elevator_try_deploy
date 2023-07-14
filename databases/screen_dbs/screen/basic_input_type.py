@@ -104,3 +104,11 @@ class BasicInputType(ABC):
     @abstractmethod
     def as_full_screen_html(self):
         pass
+
+    @abstractmethod
+    def on_screen_representation(self, width:int, height:int):
+        pass
+
+    @staticmethod
+    def get_html_table_keys():
+        return "<tr><td>id</td><td>presentation time / video time</td><td>video/image</td></tr>"

@@ -39,18 +39,17 @@ class Image(BasicInputType):
     def to_html_table_entry(self):
         html_string, image_as_dict = super().to_html_table_entry()
         html_string += f"<td>{image_as_dict['properties']['image time']}</td>"
-        html_string+=f"<td><img src={image_as_dict['encoding']} width=\"500\" height=\"600\"></td>"
+        html_string+=f"<td>{self.on_screen_representation(500, 600)}</td>"
         html_string+="</tr>"
         return html_string
-    @staticmethod
-    def get_html_table_keys():
-        return "<tr><td>id</td><td>presentation time / video time</td><td>video/image</td></tr>"
 
     def as_full_screen_html(self):
         return f"<img src={self.encoding} style=\"height:100%;width:100%\"> <script>timeout_fetch={default_time_window*1000};\n" \
                f"setInterval(page_reload, timeout_fetch);\n" \
                f"</script>"
 
+    def on_screen_representation(self, width:int, height: int):
+        return f"<img src={self.encoding} width=\"{width}\" height=\"{height}\">"
+
 Image.inheriting_class[Image.__name__] = Image
 
-print(Image.__name__)

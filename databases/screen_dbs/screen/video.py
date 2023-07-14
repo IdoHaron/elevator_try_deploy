@@ -25,16 +25,18 @@ class Video(BasicInputType):
     def to_html_table_entry(self):
         html_string, video_as_dict = super().to_html_table_entry()
         html_string += f"<td>not applicable</td>"
-        html_string+=f"<td><video id=\"v_id_{video_as_dict['properties']['id']}\" src={video_as_dict['encoding']} width=\"500\" height=\"600\">" \
-                     f"<source src=\"/{video_as_dict['encoding']}\" type=\"video/mp4\"> Your browser does not support the video tag." \
-                     f"</video></td>" \
-                     f"<script>" \
-                     f"\nconst video_element = document.getElementById('v_id_{video_as_dict['properties']['id']}');\n" \
-                     f"video_element.load();\n video_element.play();\n" \
-                     f"</script>"
+        html_string+=f"<td> {self.on_screen_representation(500, 600)}</tr>"
                      #"video_element.addEventListener('ended', function() { video_element.play(); });" \
-        html_string+="</tr>"
         return html_string
+
+    def on_screen_representation(self, width:int, height:int):
+        return f"<video id =\"v_id_{self.id}\" src={self.encoding} width=\"{width}\" height=\"{height}\">" \
+             f"<source src=\"/{self.encoding}\" type=\"video/mp4\"> Your browser does not support the video tag." \
+             f"</video></td>" \
+             f"<script>" \
+             f"\nconst video_element = document.getElementById('v_id_{self.id}');\n" \
+             f"video_element.load();\n video_element.play();\n" \
+             f"</script>"
 
 
     def __dict__(self):

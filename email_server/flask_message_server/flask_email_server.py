@@ -158,7 +158,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
         return "True"
 
     @staticmethod
-    @FlaskServer._SERVER.route("/remove_image", methods=["POST"])
+    @FlaskServer._SERVER.route("/remove_obj", methods=["POST"])
     def remove_image():
         data =request.data.decode("ASCII")
         data = loads(data)
@@ -167,7 +167,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
 
 
     @staticmethod
-    @FlaskServer._SERVER.route("/image/<image_id>")
+    @FlaskServer._SERVER.route("/get_obj/<image_id>")
     def get_image(image_id:str):
         return json.dumps(Image.obj_map[int(image_id)].description())
 

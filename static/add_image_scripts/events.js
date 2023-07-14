@@ -47,8 +47,8 @@ async function sumbit_editied_image(event){
     }
     else{
         image = JSON.stringify({
-            "image_encoding": canvas_to_hex,
-            "image_time": amount_of_time,
+            "encoding": canvas_to_hex,
+            "presentation_time": amount_of_time,
             "datetime_range": image_date_range
        });
     }

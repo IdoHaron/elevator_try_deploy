@@ -24,12 +24,16 @@ function on_change_image(){
 
 }
 
+function clear_screen(){
+    
+}
+
 function remove_image(){
     const current_image_id = select_elemet.value;
     console.log("current_image_id: "+current_image_id);
     const board_id = document.getElementById("board").innerText;
     canvas_manager.clearCanvas();
-    NetworkUtils.request_from_route("remove_image", "POST", {
+    NetworkUtils.request_from_route("remove_obj", "POST", {
         "destination": board_id,
         "image_id":current_image_id
     });
