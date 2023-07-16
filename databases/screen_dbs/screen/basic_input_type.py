@@ -20,11 +20,11 @@ class BasicInputType(ABC):
                 obj_id = max(ids) + 1
             else:
                 obj_id = RandomUtils.choose_number_not_in_list(min(ids)+1, max(ids), ids)
-        self._presentation_time = presentation_time
+        self._presentation_time = int(presentation_time)
         self.id = int(obj_id)
         self.obj_map[self.id] = self
         self.encoding = encoding
-        self.time_presented=self.__NOT_PRESENTING_OBJ
+        self.time_presented:int =self.__NOT_PRESENTING_OBJ
         self.date_range = None
         if datetime_range is not None:
             if datetime_range is str:
@@ -106,7 +106,7 @@ class BasicInputType(ABC):
         pass
 
     @abstractmethod
-    def on_screen_representation(self, width:int, height:int):
+    def represent_in_html(self, width:int, height:int):
         pass
 
     @staticmethod

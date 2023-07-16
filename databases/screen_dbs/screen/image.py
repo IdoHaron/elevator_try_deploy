@@ -39,7 +39,7 @@ class Image(BasicInputType):
     def to_html_table_entry(self):
         html_string, image_as_dict = super().to_html_table_entry()
         html_string += f"<td>{image_as_dict['properties']['image time']}</td>"
-        html_string+=f"<td>{self.on_screen_representation(500, 600)}</td>"
+        html_string+=f"<td>{self.represent_in_html(500, 600)}</td>"
         html_string+="</tr>"
         return html_string
 
@@ -48,7 +48,7 @@ class Image(BasicInputType):
                f"setInterval(page_reload, timeout_fetch);\n" \
                f"</script>"
 
-    def on_screen_representation(self, width:int, height: int):
+    def represent_in_html(self, width:int, height: int):
         return f"<img src={self.encoding} width=\"{width}\" height=\"{height}\">"
 
 Image.inheriting_class[Image.__name__] = Image

@@ -25,11 +25,11 @@ class Video(BasicInputType):
     def to_html_table_entry(self):
         html_string, video_as_dict = super().to_html_table_entry()
         html_string += f"<td>not applicable</td>"
-        html_string+=f"<td> {self.on_screen_representation(500, 600)}</tr>"
+        html_string+=f"<td> {self.represent_in_html(500, 600)}</tr>"
                      #"video_element.addEventListener('ended', function() { video_element.play(); });" \
         return html_string
 
-    def on_screen_representation(self, width:int, height:int):
+    def represent_in_html(self, width:int, height:int):
         return f"<video id =\"v_id_{self.id}\" src={self.encoding} width=\"{width}\" height=\"{height}\">" \
              f"<source src=\"/{self.encoding}\" type=\"video/mp4\"> Your browser does not support the video tag." \
              f"</video></td>" \

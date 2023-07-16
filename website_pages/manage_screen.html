@@ -15,16 +15,18 @@
 
     </head>
     <body style="height:100vh" style="text-align: center;">
-        <div class="form_text">select image:</div>
-        <select id="image" onchange="on_change_image(this)">
+        <div class="form_text">select screen object:</div>
+        <select id="image" onchange="on_change_object(this)">
             {% for image_id in image_ids: %}
                 <option value={{image_id}}>{{image_id}}</option>
             {% endfor %}
         </select>
         <br>
-        <canvas id="present_image" width="600vw" height="600vh"></canvas>
+        <div id="show_obj" width="600vw" height="600vh">
+
+        </div>
         <br>
-        <button value="add_image_to_screen" onclick="remove_image(this)" class="form_button">remove image from screen</button>
+        <button value="add_image_to_screen" onclick="remove_obj(this)" class="form_button">remove object from screen</button>
         <br>
         <br>
         <button value="clear_screen" class="form_button">clear screen</button>

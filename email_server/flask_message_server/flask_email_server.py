@@ -162,7 +162,7 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     def remove_image():
         data =request.data.decode("ASCII")
         data = loads(data)
-        FlaskMessageServer.server_instace._screen_db.remove_image(data["destination"],data["image_id"])
+        FlaskMessageServer.server_instace._screen_db.remove_obj(data["destination"], data["image_id"])
         return {"suc": True}
 
 
@@ -170,6 +170,11 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @FlaskServer._SERVER.route("/get_obj/<image_id>")
     def get_image(image_id:str):
         return json.dumps(Image.obj_map[int(image_id)].description())
+
+    @staticmethod
+    @FlaskServer._SERVER.route("/obj_as_html/<image_id>")
+    def get_obj_as_html(image_id: str):
+        return Image.obj_map[int(image_id)].represent_in_html(500, 600)
 
     @staticmethod
     @FlaskServer._SERVER.route("/manage_screen/<screen_id>")

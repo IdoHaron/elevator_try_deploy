@@ -54,7 +54,7 @@ class ScreenDB:
         return screen_id in self.__dict__().keys()
 
     @abstractmethod
-    def remove_image(self, screen_id:str, image_id:int):
+    def remove_obj(self, screen_id:str, obj_id:int):
         raise NotImplementedError
 
     @abstractmethod
