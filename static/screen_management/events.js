@@ -44,7 +44,9 @@ function remove_obj(){
         "destination": board_id,
         "image_id":current_image_id
     });
-    select_manager.remove_option(current_image_id);
+    page_reload();
+
+    //select_manager.remove_option(current_image_id);
 }
 
 function show_image_properties(jsonData, table_id){

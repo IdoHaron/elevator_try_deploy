@@ -31,7 +31,7 @@ class Video(BasicInputType):
 
     def represent_in_html(self, width:int, height:int):
         return f"<video id =\"v_id_{self.id}\" src={self.encoding} width=\"{width}\" height=\"{height}\">" \
-             f"<source src=\"/{self.encoding}\" type=\"video/mp4\"> Your browser does not support the video tag." \
+             f"<source src=\"/{self.encoding}\" type=\"video/mp4\" muted=\"muted\"> Your browser does not support the video tag." \
              f"</video></td>" \
              f"<script>" \
              f"\nconst video_element = document.getElementById('v_id_{self.id}');\n" \
@@ -46,9 +46,9 @@ class Video(BasicInputType):
 
 # can use hook for video end
     def as_full_screen_html(self):
-        return f"<video id=\"v_id_{self.id}\" src={self.encoding} style=\"height:100%;width:100%\">" \
+        return f"<video id=\"v_id_{self.id}\" src={self.encoding} style=\"height:100%;width:100%\" muted=\"muted\">" \
                      f"<source src=\"/{self.encoding}\" type=\"video/mp4\"> Your browser does not support the video tag." \
-                     f"</video></td>" \
+                     f"<muted></video></td>" \
                      f"<script>" \
                      f"\nconst video_element = document.getElementById('v_id_{self.id}');\n" \
                      f"video_element.load();\n video_element.play();\n" \

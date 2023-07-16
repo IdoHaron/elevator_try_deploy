@@ -6,6 +6,11 @@ function show_element(element){
     element.style.display = "";
 }
 
-const sleep = ms => new Promise(r => setTimeout(r, ms));
+function page_reload(){
+    // check if internet connection works.
+    if (NetworkUtils.ping_server())
+        location.reload();
+    console.log("tried to page reload");
+}
 
-console.log("utils imported");
+const sleep = ms => new Promise(r => setTimeout(r, ms));

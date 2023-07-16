@@ -2,16 +2,7 @@
     <head>
         <script src="{{url_for('static', filename='TimedEvents.js')}}"></script>
         <script src="{{url_for('static', filename='utils/NetworkUtils.js')}}"></script>
-        <script>
-            function page_reload(){
-                // check if internet connection works.
-                if (NetworkUtils.ping_server())
-                    location.reload();
-                console.log("tried to page reload");
-            }
-            //setInterval(page_reload, 1000);
-    
-        </script>
+        <script src="{{url_for('static', filename='utils/utils.js')}}"></script>
         <style>
             body, html {
                height: 100%;
