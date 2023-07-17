@@ -20,7 +20,7 @@ class Screen:
 
 
     def __current_obj(self):
-        if self.__current_index == Screen.EMPTY_SCREEN_INDEX:
+        if self.__current_index == Screen.EMPTY_SCREEN_INDEX or self.__current_index>=len(self.all_obj.values()):
             return ""
         return list(self.all_obj.values())[self.__current_index]
 
@@ -62,7 +62,8 @@ class Screen:
         self.all_obj = {}
 
     def tick(self):
-        if not self.__current_obj().tick():
+        current_obj = self.__current_obj()
+        if type(current_obj) is str or not current_obj.tick():
             return
         self.__current_index += 1
         if len(self.all_obj.keys()) == 0:

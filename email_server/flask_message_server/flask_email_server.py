@@ -140,10 +140,15 @@ class FlaskMessageServer(FlaskServer, MessageServer):
     @staticmethod
     @FlaskServer._SERVER.route("/elevator/<elevator_id>")
     def html_page_image_for_elevator(elevator_id:str):
+        print("here")
         if  not FlaskMessageServer.server_instace._screen_db.legal_screen_id(elevator_id):
             return "sorry, page not found"
-        obj_as_html = Markup(FlaskMessageServer.server_instace._screen_db.get_encoding_as_html(elevator_id))
-        return render_template("elevator_client.html", screen_id=elevator_id, obj_information = obj_as_html)
+        try:
+            print("here")
+            obj_as_html = Markup(FlaskMessageServer.server_instace._screen_db.get_encoding_as_html(elevator_id))
+            return render_template("elevator_client.html", screen_id=elevator_id, obj_information = obj_as_html)
+        except:
+            return "no image to present"
 
     @staticmethod
     @FlaskServer._SERVER.route("/image/elevator/<elevator_id>")
