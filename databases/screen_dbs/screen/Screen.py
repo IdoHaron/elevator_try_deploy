@@ -6,6 +6,7 @@ from databases.screen_dbs.screen.basic_input_type import BasicInputType
 from databases.screen_dbs.screen.video import Video
 from collections import OrderedDict
 class Screen:
+    EMPTY_SCREEN_INDEX = -1
 
     def __init__(self, images_to_present:List[dict]):
         self.images:Dict[int, Image] = {}
@@ -19,6 +20,8 @@ class Screen:
 
 
     def __current_obj(self):
+        if self.__current_index == Screen.EMPTY_SCREEN_INDEX:
+            return ""
         return list(self.all_obj.values())[self.__current_index]
 
     def current_obj_encoding(self):
@@ -34,26 +37,36 @@ class Screen:
     def remove_object(self, object_id:int):
         try:
             object_id = int(object_id)
+        except:
+            return False
+        if object_id not in self.all_obj.keys():
+            return False
+        try:
             del self.all_obj[object_id]
         except:
             print(f"{self.all_obj.keys()}  {object_id}")
             self.all_obj[object_id] = None
             print(f"{self.all_obj.keys()}  {object_id}")
+        if self.__current_index >= len(self.all_obj):
+            self.__current_index = 0
+        if len(self.all_obj) ==0:
+            self.__current_index  =Screen.EMPTY_SCREEN_INDEX
+        return True
 
 
     def add_obj(self, obj:BasicInputType):
         self.all_obj[obj.id] = obj
 
-    def clear_images(self):
+    def clear_obj(self):
         self.__current_index = 0
-        self.images = {}
+        self.all_obj = {}
 
     def tick(self):
         if not self.__current_obj().tick():
             return
         self.__current_index += 1
         if len(self.all_obj.keys()) == 0:
-            self.__current_index = 0
+            self.__current_index = Screen.EMPTY_SCREEN_INDEX
             return
         self.__current_index = self.__current_index % len(self.all_obj.keys())
 
@@ -65,4 +78,4 @@ class Screen:
         return result
 
     def flush(self):
-        self.clear_images()
+        self.clear_obj()

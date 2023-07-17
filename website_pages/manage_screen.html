@@ -18,6 +18,7 @@
     <body style="height:100vh" style="text-align: center;">
         <div class="form_text">select screen object:</div>
         <select id="image" onchange="on_change_object(this)">
+            <option value="" selected> </option>
             {% for image_id in image_ids: %}
                 <option value={{image_id}}>{{image_id}}</option>
             {% endfor %}

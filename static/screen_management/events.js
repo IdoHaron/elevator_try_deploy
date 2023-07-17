@@ -10,6 +10,10 @@ function change_presented_object(obj_as_html) {document.getElementById(object_sh
 
 function on_change_object(){
     const current_obj_id =  selected_id();
+    if (current_obj_id == ""){
+        change_presented_object("");
+        return;
+    }
     const obbj_info = NetworkUtils.request_from_route("obj_as_html/"+current_obj_id);
     change_presented_object(obbj_info);
     // add to canvas based on enccoding

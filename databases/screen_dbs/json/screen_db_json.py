@@ -35,6 +35,7 @@ class ScreenJsonDB(ScreenDB,JsonDB):
 
     def remove_obj(self, screen_id:str, obj_id:int):
         self._current_db_state[screen_id].remove_object(obj_id)
+        self._save_db()
     def _save_db(self):
         with self.database_path.open("w") as f:
             json.dump(self.__dict__(), f)
